@@ -1,0 +1,13 @@
+Package: TimeWarp
+Type: Package
+Title: Date calculations and manipulation
+Version: 0.7-2
+Date: 2007-12-13
+Author: Jeffrey Horner, Lars Hansen, Tony Plate
+Maintainer: Tony Plate <tplate@acm.org>
+Depends: R (>= 2.6)
+Suggests: ScripTests
+Description: Date sequence, relative date calculations, and date manipulation with business days
+  and holidays.  Works with Date and POSIXt classes.  Intention is to extend to work with other
+  date classes too.
+License: GPL
