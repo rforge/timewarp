@@ -124,7 +124,7 @@ Time difference of 0 days
 2009-01-04   2009-01-02 
 2009-01-05   2009-01-05 
 2009-01-06   2009-01-06 
-> library(holidays)
+> library(Holidays)
 #@ ignore-output
 > date <- as.Date("2009/1/1") + -8:2; cat(paste(format(date), " ", format(dateAlign(date, by = "bizdays", k.by = 1, direction = -1, holidays = "NYSEC"))), sep = "\n")
 2008-12-24   2008-12-24 

@@ -7,10 +7,12 @@ dateParse <- function(x, format=NULL, stop.on.error=TRUE, quick.try=TRUE,
     if (is.numeric(x) && ymd8) {
         # assume that the date is a whole number, not necesarily an integer
         if (!is.wholenumber(x)){
-            if (stop.on.error)
+            if (stop.on.error) {
+                i <- which(!is.na(x) & floor(x)!=x)
                 stop("can only have whole numbers for numeric x: ",
-                     some.examples(x[!is.na(x) & floor(x)!=x], collapse=", ",
-                                   total=TRUE))
+                     paste(x[i[seq(len=min(3, length(i)))]], collapse=", "),
+                     if (length(i) > 3) " ...")
+            }
             else return(NULL)
         }
 
@@ -20,10 +22,12 @@ dateParse <- function(x, format=NULL, stop.on.error=TRUE, quick.try=TRUE,
 
         # were there any elements of x that became NA because of parse?
         if (any(is.na(d) & !is.na(x))){
-            if (stop.on.error)
+            if (stop.on.error) {
+                i <- which(is.na(d) & !is.na(x))
                 stop("could not parse some dates, e.g.: ",
-                     some.examples(x[is.na(d) & !is.na(x)], collapse=", ",
-                                   total=T))
+                     paste(x[i[seq(len=min(3, length(i)))]], collapse=", "),
+                     if (length(i) > 3) " ...")
+            }
             else return(NULL)
         }
         if (note.class)
@@ -107,31 +111,40 @@ dateParse <- function(x, format=NULL, stop.on.error=TRUE, quick.try=TRUE,
         date.mdY.expr <- paste("^", date.mdY.expr, "$", sep="")
     }
 
-    if (delimiter!="" && all((m<-regexpr(date.Ymd.expr, x.not.na))>0)) {
+    if (delimiter!="" && all((m1<-regexpr(date.Ymd.expr, x.not.na))>0)) {
         if (dross.remove)
-            x[x.not.na.idx] <- substring(x.not.na, m,
-                                         m-1+attr(m, "match.length"))
+            x[x.not.na.idx] <- substring(x.not.na, m1,
+                                         m1-1+attr(m1, "match.length"))
         format <- paste("%Y", "%m", "%d", sep=delimiter)
     } else if (delimiter!="" &&
-               all((m<-regexpr(date.mdY.expr, x.not.na))>0)) {
+               all((m2<-regexpr(date.mdY.expr, x.not.na))>0)) {
         if (dross.remove)
-            x[x.not.na.idx] <- substring(x.not.na, m,
-                                         m-1+attr(m, "match.length"))
+            x[x.not.na.idx] <- substring(x.not.na, m2,
+                                         m2-1+attr(m2, "match.length"))
         format <- paste("%m", "%d", "%Y", sep=delimiter)
-    } else if (ymd8 && all((m<-regexpr(date.ymd8.expr, x.not.na))>0)) {
+    } else if (ymd8 && all((m3<-regexpr(date.ymd8.expr, x.not.na))>0)) {
         delimiter = ""
         format <- '%Y%m%d'
         if (dross.remove)
-            x[x.not.na.idx] <- substring(x.not.na, m,
-                                         m-1+attr(m, "match.length"))
+            x[x.not.na.idx] <- substring(x.not.na, m3,
+                                         m3-1+attr(m3, "match.length"))
     } else if (length(x.not.na)>0) {
         # the error message may not show the dates
         # that caused the problems, but
         # it requires quite complex to do better...
-        if (stop.on.error)
+        if (stop.on.error) {
+            if (any(m1))
+                i <- c(which(m1>0)[1], which(m1<0)[1])
+            else if (any(m2))
+                i <- c(which(m2>0)[1], which(m2<0)[1])
+            else if (any(m3))
+                i <- c(which(m3>0)[1], which(m3<0)[1])
+            else
+                i <- seq(along=x.not.na)
             stop("cannot find consistent format for dates: ",
-                 some.examples(x.not.na, collapse=", ", total=TRUE))
-        else
+                     paste(x.not.na[i[seq(len=min(3, length(i)))]], collapse=", "),
+                     if (length(i) > 3) " ...")
+        } else
             return(NULL)
     } else {
         # format doesn't matter because everything is NA
@@ -141,11 +154,12 @@ dateParse <- function(x, format=NULL, stop.on.error=TRUE, quick.try=TRUE,
     d <- as.Date(x, format=format)
 
     if (any(is.na(d[x.not.na.idx]))) {
-        if (stop.on.error)
+        if (stop.on.error) {
+            i <- seq(along=x)[x.not.na.idx][is.na(d[x.not.na.idx])]
             stop("as.Date returned NA for some strings: ",
-                 some.examples(x[x.not.na.idx][is.na(d[x.not.na.idx])],
-                               collapse=", ", total=TRUE))
-        else
+                     paste(x[i[seq(len=min(3, length(i)))]], collapse=", "),
+                     if (length(i) > 3) " ...")
+        } else
             return(NULL)
     }
 

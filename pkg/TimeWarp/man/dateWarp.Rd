@@ -12,47 +12,47 @@ dateWarpAppend(dates, ..., where = c("sorted", "start", "end"), empty.ok
 }
 
 \arguments{
-	\item{date}{
-	  a \code{\link{Date}} vector, or a character vector that can be
-	  converted to \code{\link{Date}} by \code{\link{dateParse}}.
-	}
-	\item{spec}{
-	  a specification of shifts and alignment tranformations. See \sQuote{Details}.
-	}
-	\item{holidays}{
-	  a character string naming the holiday series (see \code{\link{holidays}}).
-	}
-	\item{by}{
-	  how to warp. Can be one of \code{"days"}, \code{"bizdays"},
-	  \code{"weeks"}, \code{"months"}, or \code{"years"}. 
-	  \code{"bizdays"} can contain a holiday specification like:
-	  \code{"bizdays@NYSEC"}
-	}
-	\item{direction}{
-	  which direction to warp. a numeric value of 1 for the future,
-	  and -1 for the past (be careful about using variables for this
-	  value, for if it's value is negative and you place a minus
-	  sign in front of the variable, you'll go back to the future).
-	}
-	\item{duplicates.keep}{
-	  logical indicating whether or not to keep duplicate dates.
-	}
-	\item{dates}{
-	  a \code{\link{Date}} vector, or a character vector that can be
-	  converted to \code{\link{Date}} by \code{\link{dateParse}}.
-	}
-	\item{\dots}{
-	  arguments to pass to \code{dateWarp}.
-	}
-	\item{where}{
-	  character string. can be \code{"sorted"} to sort the result instead of append, \code{"start"} to prepend, or \code{"end"} to append.
-	}
-	\item{empty.ok}{
-	  is it okay for the \code{dates} argument to be empty?
-	}
-	\item{duplicates.ok}{
-	  logical indicating whether or not to keep duplicate dates.
-	}
+        \item{date}{
+          a \code{\link{Date}} vector, or a character vector that can be
+          converted to \code{\link{Date}} by \code{\link{dateParse}}.
+        }
+        \item{spec}{
+          a specification of shifts and alignment tranformations. See \sQuote{Details}.
+        }
+        \item{holidays}{
+          a character string naming the holiday series (see \code{\link{holidays}}).
+        }
+        \item{by}{
+          how to warp. Can be one of \code{"days"}, \code{"bizdays"},
+          \code{"weeks"}, \code{"months"}, or \code{"years"}.
+          \code{"bizdays"} can contain a holiday specification like:
+          \code{"bizdays@NYSEC"}
+        }
+        \item{direction}{
+          which direction to warp. a numeric value of 1 for the future,
+          and -1 for the past (be careful about using variables for this
+          value, for if it's value is negative and you place a minus
+          sign in front of the variable, you'll go back to the future).
+        }
+        \item{duplicates.keep}{
+          logical indicating whether or not to keep duplicate dates.
+        }
+        \item{dates}{
+          a \code{\link{Date}} vector, or a character vector that can be
+          converted to \code{\link{Date}} by \code{\link{dateParse}}.
+        }
+        \item{\dots}{
+          arguments to pass to \code{dateWarp}.
+        }
+        \item{where}{
+          character string. can be \code{"sorted"} to sort the result instead of append, \code{"start"} to prepend, or \code{"end"} to append.
+        }
+        \item{empty.ok}{
+          is it okay for the \code{dates} argument to be empty?
+        }
+        \item{duplicates.ok}{
+          logical indicating whether or not to keep duplicate dates.
+        }
 }
 \details{
   \code{spec} specify tranformations in several ways:
@@ -71,22 +71,22 @@ dateWarpAppend(dates, ..., where = c("sorted", "start", "end"), empty.ok
     list or scalars. The scalar items can be named:
     \describe{
       \item{unique}{the item value can be either numeric or
-	logical. No matter the value, the dates will be made unique}
+        logical. No matter the value, the dates will be made unique}
       \item{latest}{the item is a \code{Date} or a character that can
-	be converted to a \code{Date} with
-	\code{\link{dateParse}}. The dates will be clipped at
-	the specified \code{Date}.}
+        be converted to a \code{Date} with
+        \code{\link{dateParse}}. The dates will be clipped at
+        the specified \code{Date}.}
       \item{earliest}{the item is a \code{Date} or a character that can
-	be converted to a \code{Date} with
-	\code{\link{dateParse}}. The dates will be clipped at
-	the specified \code{Date}.}
+        be converted to a \code{Date} with
+        \code{\link{dateParse}}. The dates will be clipped at
+        the specified \code{Date}.}
     }
     The list items can be named:
     \describe{
       \item{shift}{the list will be used as arguments to a call
-	of \code{\link{dateShift}}}
+        of \code{\link{dateShift}}}
       \item{align}{the list will be used as arguments to a call
-	of \code{\link{dateAlign}}}
+        of \code{\link{dateAlign}}}
     }
     If not all arguments are not provided, the {dateWarp}
     arguments will be used instead.
@@ -107,7 +107,7 @@ dateWarpAppend(dates, ..., where = c("sorted", "start", "end"), empty.ok
   \code{\link{dateSeq}}
 }
 \examples{
-library(holidays)
+library(Holidays)
 dates <- dateSeq("2001/12/20", by = 'bizdays', len = 9, holidays = "NYSEC")
 dateWarp(dates, -1:1, by = "bizdays", holidays = "NYSEC", duplicates.keep =
 FALSE)

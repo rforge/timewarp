@@ -1,21 +1,20 @@
 .onLoad <- function(lib, pkg)
 {
-    library(versioning)
     library(TimeWarp)
 
-    ## Most of the holiday date series her e have New Years Day for a few more
+    ## Most of the holiday date series here have New Years Day for a few more
     ## years beyond the end of known data - having one day holiday in the
     ## data for a year helps catch lack of holiday data in other programs.
-    ## These New Years Days holidays are probably NOT correct for the exchange,
-    ## they are calculated as the nearest weekday to Jan 1st.
-    ## However, different exchanges have different days as New Years Day holiday
+    ## These New Years Days holidays are calculated as the nearest weekday
+    ## to Jan 1st and may not be NOT correct for the exchange, because
+    ## different exchanges can use different rules.
 
     ###########################################################################
     ##
     ## AUSEX
     ##
-    ## Data taken from MarketQA.  2004-5 cross checked against the
-    ## exchange calendar: http://www.asx.com.au/about/Calendar_AA2.shtm
+    ## 2004-5 cross checked against the exchange calendar:
+    ## http://www.asx.com.au/about/Calendar_AA2.shtm
     ##
     registerHolidays('AUSEX', dateParse(
     c(
@@ -82,7 +81,7 @@
         ## of extras that are holidays in Australia, but for which the market is open
 
         ## New Years Day for a few more years - having one day holiday in the
-        ## data for a year helps catch lack of holiday data here and in MarketQA
+        ## data for a year helps catch lack of holiday data here and in the DB.
         ## These New Years Days holidays are probably NOT correct for the exchange,
         ## they are calculated using the rule:
         ## holiday.nearest.weekday(holiday.NewYears(years))
@@ -141,7 +140,7 @@
         ## Check holidays on Bloomberg with "CDR GB 2009"
 
         ## New Years Day for a few more years - having one day holiday in the
-        ## data for a year helps catch lack of holiday data here and in MarketQA
+        ## data for a year helps catch lack of holiday data here and in the DB.
         ## These New Years Days holidays are probably NOT correct for the exchange,
         ## they are calculated using the rule:
         ## holiday.nearest.weekday(holiday.NewYears(years))
@@ -283,7 +282,7 @@
         ## Check holidays on Bloomberg with "CDR JN 2009"
 
         ## New Years Day for a few more years - having one day holiday in the
-        ## data for a year helps catch lack of holiday data here and in MarketQA
+        ## data for a year helps catch lack of holiday data here and in the DB.
         ## These New Years Days holidays are probably NOT correct for the exchange,
         ## they are calculated using the rule:
         ## holiday.nearest.weekday(holiday.NewYears(years))
@@ -309,8 +308,7 @@
     ##
     ## KOREX
     ##
-    ## Data taken from MarketQA and cross checked against the Bloomberg
-    ## "CDR SK 2004"
+    ## Data cross checked against the Bloomberg "CDR SK 2004"
     ##
     registerHolidays('KOREX', dateParse(
     c(
@@ -398,7 +396,6 @@
     ## Neither is the right rule for NYSE: they don't have any day off
     ## for 2005/01/01.
     ##
-    ## These were copied and pasted out of an S-PLUS session.
     ##
     registerHolidays('NEWYEAR', dateParse(
     c(
@@ -415,7 +412,6 @@
     ##
     ## NYSE
     ##
-    ## These were copied and pasted out of an S-PLUS session.
     ##
     registerHolidays('NYSE', dateParse(
     c(

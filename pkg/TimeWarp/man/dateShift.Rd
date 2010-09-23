@@ -15,14 +15,14 @@ dateShift(x, by = "days", k.by = 1, direction = 1, holidays = NULL, silent = FAL
   \item{by}{
     character string with the time unit of the shifts.
     Can be one of \code{"days"}, \code{"bizdays"},\code{"weeks"},
-    \code{"months"}, or \code{"years"}. 
+    \code{"months"}, or \code{"years"}.
   }
   \item{k.by}{
-    positive integer with the number of \code{by} time units to shift. 
+    positive integer with the number of \code{by} time units to shift.
   }
   \item{direction}{
     integer with the direction to shift. A value of \code{1} for the future,
-    and \code{-1} for the past. 
+    and \code{-1} for the past.
   }
   \item{holidays}{
     character string naming the holiday series (see \code{\link{holidays}}).
@@ -48,7 +48,7 @@ dateShift(x, by = "days", k.by = 1, direction = 1, holidays = NULL, silent = FAL
 dateShift("2007/12/06", by = "days", k.by = 7, direction = -1)
 date <- as.Date("2009/1/1") + -5:5
 dateShift(date, by = "days", silent = TRUE)
-library(holidays)
+library(Holidays)
 dateShift(date, by = "bizdays", k.by = 5, holidays = "NYSEC")
 dateShift(date, by = "weeks", k.by = 2)
 dateShift(date, by = "months", k.by = "3", direction = "-1")

@@ -122,7 +122,8 @@ dateWarp <- function(date, spec, holidays = NULL, by = "bizdays",
 
                 if (any(is.na(op)))
                     stop("could not parse some elements of 'spec' vector to numbers: ",
-                         some.examples(opStr[is.na(op)], ellipsis = TRUE))
+                         paste(opStr[is.na(op)][seq(len=min(3, sum(is.na(op))))], collapse=", "),
+                         if (sum(is.na(op))>3) " ...")
             }
 
             if (is(op, "numeric"))

@@ -2,7 +2,7 @@
 \alias{dateAlign}
 \title{Date alignment}
 \description{
-  Align a date vector the a day, bizday, month, week or year boundary.  
+  Align a date vector the a day, bizday, month, week or year boundary.
 }
 \usage{
 dateAlign(x, by = "days", k.by = 1, direction = 1, week.align = NULL, holidays = NULL, silent = FALSE)
@@ -15,11 +15,11 @@ dateAlign(x, by = "days", k.by = 1, direction = 1, week.align = NULL, holidays =
   \item{by}{
     character string with the time unit of the time period.
     Can be one of \code{"days"}, \code{"bizdays"},\code{"weeks"},
-    \code{"months"}, or \code{"years"}. 
+    \code{"months"}, or \code{"years"}.
   }
   \item{k.by}{
     positive integer giving the number of the \code{by} units to align
-    to. Ignored for \code{"bizdays"} and \code{"weeks"}. 
+    to. Ignored for \code{"bizdays"} and \code{"weeks"}.
 }
   \item{direction}{
     integer with either -1 or 1, to align to the previous or next time
@@ -27,7 +27,7 @@ dateAlign(x, by = "days", k.by = 1, direction = 1, week.align = NULL, holidays =
   }
   \item{week.align}{
     if not NULL, and \code{by} is \code{"weeks"}, an integer, 0 to 6
-    with 0 being Sunday, to specify a weekday to align to.  
+    with 0 being Sunday, to specify a weekday to align to.
   }
   \item{holidays}{
     character string naming the holiday series (see
@@ -57,7 +57,7 @@ dateAlign(x, by = "days", k.by = 1, direction = 1, week.align = NULL, holidays =
   already aligned. The direction of alignment determines which partition to use for
   the alignment. If the direction is -1 then alignment happens in the partition which
   the date falls in. If +1 then alignment happens in the partition just after the
-  partition in which the dates falls. 
+  partition in which the dates falls.
 }
 
 \seealso{
@@ -73,7 +73,7 @@ date <- as.Date("2009/1/1") + -5:5
 dateAlign(date, by = "days", silent = FALSE)
 dateAlign(date, by = "days", k.by = 3, direction = -1)
 dateAlign(date, by = "bizdays", k.by = 1, direction = 1)
-library(holidays)
+library(Holidays)
 dateAlign(date, by = "bizdays", k.by = 1, direction = 1, holidays =
 "NYSEC")
 dateAlign(date, by = "months", k.by = 2, direction = -1)

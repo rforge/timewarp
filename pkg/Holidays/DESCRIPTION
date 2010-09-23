@@ -6,6 +6,6 @@ Date: 2008-01-09
 Author: Lars Hansen <lwhansen@blackmesacapital.com>
 Maintainer: Tony Plate <tplate@acm.org>
 Depends: R (>= 2.6), TimeWarp
-Suggests: ScripTests
+Suggests: scriptests
 Description: Contains trading holiday and halfday data that is automatically registered when loaded.
 License: GPL

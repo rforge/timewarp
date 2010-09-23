@@ -9,7 +9,7 @@
 ##    minimal width.
 ##
 ## This function formats any kind of data objects to character
-## strings with the default format "%02m/%02d/%04Y" under
+## strings with the default format "%02m-%02d-%04Y" under
 ## both Linux and Windows.
 ##
 dateFormat <- function(date, format = NULL)
@@ -17,9 +17,9 @@ dateFormat <- function(date, format = NULL)
     if (is.null(format))
     {
         if (Sys.info()[["sysname"]] == "Linux")
-            format <- "%02m/%02d/%04Y"
+            format <- "%04Y-%02m-%02d"
         else
-            format <- "%m/%d/%Y"
+            format <- "%Y-%m-%d"
     }
 
     if (is(date, "character"))

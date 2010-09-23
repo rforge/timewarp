@@ -3,54 +3,39 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{ Converts a Date object to character data }
 \description{
-  ??
+  Converts a Date object to character data
 }
 \usage{
 dateFormat(date, format = NULL)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{date}{ ~~Describe \code{date} here~~ }
-  \item{format}{ ~~Describe \code{format} here~~ }
+  \item{date}{ A vector of dates.  Can be character data or some date
+    object -- anything that can be handled by \code{dateParse()} }
+  \item{format}{ A specification of the format.  The default will print
+    as "YYYY-MM-DD" under both Windows and Linux. }
 }
 \details{
-  ~~ If necessary, more details than the description above ~~
+Unfortunately, 'format.POSIXct' is not compatible between
+Linux and Windows R. Here are a few for the difference found in 2008:
+\enumerate{
+\item{Windows version does not recognize "\%y" format.}
+\item{Windows version does not recognize width arguments like
+   "\%02d".}
+\item{Windows and Linux does not agree on the meaning of "\%Y".
+   Under Windows it means "\%04Y"; under Linux it print with
+   minimal width.}
+ }
+
+This function formats any kind of data objects to character
+strings with the default format "\%04Y-\%02m-\%02d" under
+both Linux and Windows.  It does this by choosing a system-specific
+default format and then calling \code{format()}.
 }
 \value{
-  ~Describe the value returned
-  If it is a LIST, use
-  \item{comp1 }{Description of 'comp1'}
-  \item{comp2 }{Description of 'comp2'}
-  ...
+The formatted dates as a vector of character data.
 }
-\references{ ~put references to the literature/web site here ~ }
-\author{ ~~who you are~~ }
-\note{ ~~further notes~~ 
-
- ~Make other sections like Warning with \section{Warning }{....} ~
-}
-\seealso{ ~~objects to See Also as \code{\link{help}}, ~~~ }
+\author{ Tony Plate }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (date, format = NULL) 
-{
-    if (is.null(format)) {
-        if (Sys.info()[["sysname"]] == "Linux") 
-            format <- "\%02m/\%02d/\%04Y"
-        else format <- "\%m/\%d/\%Y"
-    }
-    if (is(date, "character")) 
-        date <- dateParse(date)
-    if (is(date, "dates")) 
-        format(as.POSIXct(date), format)
-    else if (is(date, "Date") || is(date, "POSIXt")) 
-        format(date, format)
-    else stop("unknow date format: '", class(date), "'")
-  }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

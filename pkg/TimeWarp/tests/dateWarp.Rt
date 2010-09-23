@@ -84,7 +84,7 @@
 1999/04/20 (Tue)                     
 1998/04/20 (Mon)                     
 > # x1 omits holidays
-> library(holidays)
+> library(Holidays)
 #@ ignore-output
 > x1 <- dateSeq("2001/12/20", by = 'bizdays', len = 9, holidays = "NYSEC")
 > pp(x1)
