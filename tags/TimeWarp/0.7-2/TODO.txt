@@ -1,0 +1,36 @@
+- add help file for dateAlign
+
+- make dateAlign work with vectors
+
+- add tests for dateAlign
+
+- check whether using week.align in dateAlign requires also
+  by="weeks" - if this is the case (I think it is), consider
+  a warning if week.align is supplied and by != "weeks"
+
+- finish the "orig.class" and format stuff for dateParse
+  (idea is that dateAlign and dateWarp should return an
+  object of the same class as their argument -- e.g., if
+  given a character vector, it should return a character
+  vector, if given a Date vector, they should return a Date
+  vector, if given POSIXct, should return POSIXct, etc -- in
+  the internals will probably want to use POSIXct or Date,
+  so use "orig.class" to record the desired class of the
+  output)
+
+- make various functions use orig.class
+
+- make dateWarp able to take a list of specs and do aligns
+  as well as shifts (get examples/tests from the S-PLUS
+  bmc.misc library files bizdaySeq.html, warp.html. (Lots of
+  these tests should already be in there.)
+
+  When given a list of shifts and aligns, dateWarp should use
+  the function arguments as defaults -- values should not
+  propogate from one shift/align to the next.  E.g., with this
+  spec:
+    timeWarp(x, holidays="NONE",
+             list(shift=list("2 bizdays", holidays="JPNEX"),
+                  shift=list("2 bizdays")))
+  the second shift should use holidays="NONE", not holidays="JPNEX".
+
