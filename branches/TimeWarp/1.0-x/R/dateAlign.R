@@ -50,11 +50,21 @@ dateAlign.Date <- function(x, by = 'days', k.by = 1, direction = 1, week.align =
     if (length(by) > 1)
         stop("'by' must be scalar.")
 
+    if (length(byhol <- strsplit(by, '@')[[1]]) == 2) {
+        if (!is.null(holidays))
+            stop("cannot have both holidays = ", holidays, " and by = '", by, "'")
+        by <- byhol[1]
+        holidays <- byhol[2]
+    }
+
     if (!(by %in% c('days', 'bizdays', 'weeks', 'months', 'years')))
         stop("'by' must be one of 'days', 'bizdays', 'weeks', 'months', 'years'.")
 
     if (length(k.by) > 1)
         stop("'k.by' must be scalar.")
+
+    if (!is.null(week.align) && by != 'weeks')
+        warning("ignoring week.align = ", week.align, " when by != 'weeks'")
 
     k.by <- as.integer(k.by)
 

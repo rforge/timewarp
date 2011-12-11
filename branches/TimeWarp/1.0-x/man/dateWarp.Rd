@@ -92,7 +92,7 @@ dateWarpAppend(date, ..., where = c("sorted", "start", "end"), empty.ok
 }
 \value{
   A date vector that is a transformed version of the input
-  dates. Multiple shift or alignment transfations can be specified. If
+  dates. Multiple shift or alignment transformations can be specified. If
   more that one is given, each vill be applied in turn to the result of
   the previous one.
   The class of the returned value is the same as the class of \code{date}
@@ -100,7 +100,7 @@ dateWarpAppend(date, ..., where = c("sorted", "start", "end"), empty.ok
   \code{POSIXlt}.  For \code{date} of other classes, the class of the
   returned value is \code{Date}, but this may change in the future.
 }
-\author{Lars Hansen}
+\author{Lars Hansen, Tony Plate}
 \seealso{
   \code{\link{dateAlign}},
   \code{\link{dateShift}},

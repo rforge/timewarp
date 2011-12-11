@@ -122,12 +122,12 @@ dateWarp.Date <- function(date, spec, holidays = NULL, by = "bizdays",
 
             name <- if (is.null(names(spec))) "" else names(spec)[i]
 
-            if ((name == "latest" || name == "earliest") && is(spec[[i]], "character"))
+            if ((name == "latest" || name == "earliest") && is.character(spec[[i]]))
                 op <- dateParse(spec[[i]])
             else
                 op <- spec[[i]]
 
-            if (is(op, "character") && (name == "" || name == "shift"))
+            if (is.character(op) && (name == "" || name == "shift"))
             {
                 ## Parse something like "+3 bizdays@NYSEC", "+3 bizdays", or "+3".
                 ## (It's necessary to supply 'by' to dateWarp(), but it can be picked
@@ -163,7 +163,7 @@ dateWarp.Date <- function(date, spec, holidays = NULL, by = "bizdays",
                          if (sum(is.na(op))>3) " ...")
             }
 
-            if (is(op, "numeric"))
+            if (is.numeric(op))
             {
                 if (name == "" || name == "shift")
                 {
@@ -207,7 +207,7 @@ dateWarp.Date <- function(date, spec, holidays = NULL, by = "bizdays",
                 }
 
             }
-            else if (is(op, "logical") && name == "unique")
+            else if (is.logical(op) && name == "unique")
             {
                 date <- unique(date)
             }

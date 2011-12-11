@@ -34,10 +34,13 @@ holidays <- function(years, type, silent = FALSE)
 }
 
 .registerHolidays <- function(type,dates){
-    unlockBinding('.holidays',environment(.registerHolidays))
+    locked <- environmentIsLocked(environment(registerHolidays))
+    if (locked)
+        unlockBinding('.holidays',environment(.registerHolidays))
     d <- unique(sort(dates))
     .holidays[[type]] <<- data.frame(days=d,years=years(d))
-    lockBinding('.holidays',environment(.registerHolidays))
+    if (locked)
+        lockBinding('.holidays',environment(.registerHolidays))
     invisible(.holidays[[type]])
 }
 
@@ -70,9 +73,12 @@ unregisterHolidays <- function(type,dates){
         warning(paste('No',type,'holidays exist.'))
         return()
     }
-    unlockBinding('.holidays',environment(registerHolidays))
+    locked <- environmentIsLocked(environment(registerHolidays))
+    if (locked)
+        unlockBinding('.holidays',environment(registerHolidays))
     .holidays[[type]] <<- NULL
-    lockBinding('.holidays',environment(registerHolidays))
+    if (locked)
+        lockBinding('.holidays',environment(registerHolidays))
     invisible(NULL)
 }
 

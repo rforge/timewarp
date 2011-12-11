@@ -27,12 +27,12 @@ dateFormat <- function(date, format = NULL)
         format <- gsub('%02d', '%d', format)
     }
 
-    if (is(date, "character"))
+    if (is.character(date))
         date <- dateParse(date)
 
-    if (is(date, "dates"))
+    if (inherits(date, "dates"))
         format(as.POSIXct(date), format)
-    else if (is(date, "Date") || is(date, "POSIXt"))
+    else if (inherits(date, "Date") || is(date, "POSIXt"))
         format(date, format)
     else
         stop("unknown date format: '", class(date), "'")

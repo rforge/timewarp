@@ -42,7 +42,7 @@ dateShift(x, by = "days", k.by = 1, direction = 1, holidays = NULL, silent = FAL
   \code{POSIXlt}.  For \code{x} of other classes, the class of the
   returned value is \code{Date}, but this may change in the future.
 }
-\author{Lars Hansen}
+\author{Lars Hansen, Tony Plate}
 
 \seealso{
   \code{\link{dateAlign}},

@@ -1,3 +1,6 @@
+> Sys.setlocale("LC_TIME", "C")
+[1] "C"
+> Sys.setenv(TZ='EST') # so that tests that print out time zone work everywhere
 > options(error = function() NULL, showErrorCalls = FALSE)
 > registerHolidays('NewYear', as.Date(ISOdate(1900:2000,1,1)))
 > holidays(1990:2000,'NewYear')

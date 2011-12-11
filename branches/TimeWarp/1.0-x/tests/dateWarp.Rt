@@ -1,3 +1,6 @@
+> Sys.setlocale("LC_TIME", "C")
+[1] "C"
+> Sys.setenv(TZ='EST') # so that tests that print out time zone work everywhere
 > options(error = function() NULL, showErrorCalls = FALSE)
 > dow <- function(x) if (!is.null(x)) { x <- dateParse(x); paste(format(x, "%Y/%m/%d"), " (", weekdays(x, T), ")", sep = "") } else ""
 > span <- function(x, len) { res <- rep("                ", len); res[1:length(x)] <- x; res}
@@ -813,10 +816,48 @@ Time difference of 32078 days
 > class(dateWarp(as.POSIXlt("2006/10/04"), list("-1 months")))
 [1] "POSIXlt" "POSIXt" 
 > dateWarp(as.POSIXlt("2006/10/04"), list("-1 months"))
-[1] "2006-09-04"
+[1] "2006-09-04 EST"
 > dateWarp(as.POSIXct("2006/10/04"), list("-1 months"))
-[1] "2006-09-04 EDT"
+[1] "2006-09-04 EST"
 > dateWarp(as.Date("2006/10/04"), list("-1 months"))
 [1] "2006-09-04"
 > 
+> 
+> # Find option expiration dates in 2011
+> yy <- 2011
+> (d1 <- dateSeq(paste(yy, '-01-01', sep=''), len=12, by='months'))
+ [1] "2011-01-01" "2011-02-01" "2011-03-01" "2011-04-01" "2011-05-01"
+ [6] "2011-06-01" "2011-07-01" "2011-08-01" "2011-09-01" "2011-10-01"
+[11] "2011-11-01" "2011-12-01"
+> (d2 <- dateAlign(d1, by='months', dir=-1))
+ [1] "2011-01-01" "2011-02-01" "2011-03-01" "2011-04-01" "2011-05-01"
+ [6] "2011-06-01" "2011-07-01" "2011-08-01" "2011-09-01" "2011-10-01"
+[11] "2011-11-01" "2011-12-01"
+> (d3 <- dateAlign(d2, by='weeks', week.align=5))
+ [1] "2011-01-07" "2011-02-04" "2011-03-04" "2011-04-01" "2011-05-06"
+ [6] "2011-06-03" "2011-07-01" "2011-08-05" "2011-09-02" "2011-10-07"
+[11] "2011-11-04" "2011-12-02"
+> (d4 <- dateWarp(d3, 14, by='days'))
+ [1] "2011-01-21" "2011-02-18" "2011-03-18" "2011-04-15" "2011-05-20"
+ [6] "2011-06-17" "2011-07-15" "2011-08-19" "2011-09-16" "2011-10-21"
+[11] "2011-11-18" "2011-12-16"
+> (d5 <- dateAlign(d4, by='bizdays@NYSEC', dir=-1))
+ [1] "2011-01-21" "2011-02-18" "2011-03-18" "2011-04-15" "2011-05-20"
+ [6] "2011-06-17" "2011-07-15" "2011-08-19" "2011-09-16" "2011-10-21"
+[11] "2011-11-18" "2011-12-16"
+> 
+> # Find option expiration dates that have been shifted because they would have
+> # occured on a holiday
+> yy <- 1990
+> d1 <- dateSeq(paste(yy, '-01-01', sep=''), len=288, by='months')
+> d2 <- dateAlign(d1, by='months', dir=-1)
+> d3 <- dateAlign(d2, by='weeks', week.align=5)
+> d4 <- dateWarp(d3, 14, by='days')
+> d5 <- dateAlign(d4, by='bizdays@NYSEC', dir=-1)
+> data.frame(holiday=d4, option.expiration=d5)[which(d4 != d5), ]
+       holiday option.expiration
+28  1992-04-17        1992-04-16
+124 2000-04-21        2000-04-20
+160 2003-04-18        2003-04-17
+219 2008-03-21        2008-03-20
 > 

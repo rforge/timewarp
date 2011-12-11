@@ -1,24 +1,23 @@
-- add help file for dateAlign
+- put in example of option expiration dates
+xoeDates <- timeDate.dow(warp(dateSeq('2011-01-01', '2011-12-31', by="months", align.to="months", align.to.dir=-1), list(align=list(week.align=5,by="weeks"),shift=list(14,by="days"),align=list(by="bizdays@NYSEC",dir=-1))))
 
-- make dateAlign work with vectors
+# Find option expiration dates in 2011
+yy <- 2011
+(d1 <- dateSeq(paste(yy, '-01-01', sep=''), len=12, by='months'))
+(d2 <- dateAlign(d1, by='months', dir=-1))
+(d3 <- dateAlign(d2, by='weeks', week.align=5))
+(d4 <- dateWarp(d3, 14, by='days'))
+(d5 <- dateAlign(d4, by='bizdays@NYSEC', dir=-1))
 
-- add tests for dateAlign
-
-- check whether using week.align in dateAlign requires also
-  by="weeks" - if this is the case (I think it is), consider
-  a warning if week.align is supplied and by != "weeks"
-
-- finish the "orig.class" and format stuff for dateParse
-  (idea is that dateAlign and dateWarp should return an
-  object of the same class as their argument -- e.g., if
-  given a character vector, it should return a character
-  vector, if given a Date vector, they should return a Date
-  vector, if given POSIXct, should return POSIXct, etc -- in
-  the internals will probably want to use POSIXct or Date,
-  so use "orig.class" to record the desired class of the
-  output)
-
-- make various functions use orig.class
+# Find option expiration dates that have been shifted because they would have
+# occured on a holiday
+yy <- 1990
+d1 <- dateSeq(paste(yy, '-01-01', sep=''), len=288, by='months')
+d2 <- dateAlign(d1, by='months', dir=-1)
+d3 <- dateAlign(d2, by='weeks', week.align=5)
+d4 <- dateWarp(d3, 14, by='days')
+d5 <- dateAlign(d4, by='bizdays@NYSEC', dir=-1)
+data.frame(holiday=d4, option.expiration=d5)[which(d4 != d5), ]
 
 - make dateWarp able to take a list of specs and do aligns
   as well as shifts (get examples/tests from the S-PLUS

@@ -5,9 +5,9 @@ dateParse <- function(x, format=NULL, stop.on.error=TRUE, quick.try=TRUE,
         return(emptyDate())
 
     # Always return a Date object
-    if (is(x, "Date"))
+    if (inherits(x, "Date"))
         return(x)
-    if (is(x, "POSIXt")) {
+    if (inherits(x, "POSIXt")) {
         # To get as.Date() to behave sensibly, need to explicitly
         # supply tz to as.Date().  Otherwise we get the behavior
         # where as.Date(as.POSIXct('2011-12-10 19:55:26 EST', tz='EST'))
