@@ -3,6 +3,8 @@
 \title{Date shifting}
 \description{
   Shift a date vector a number of days, bizdays, months, weeks or years.
+  \code{dateShift()} is a generic, with
+  methods for \code{character}, \code{Date}, \code{POSIXct}, and \code{POSIXlt}.
 }
 \usage{
 dateShift(x, by = "days", k.by = 1, direction = 1, holidays = NULL, silent = FALSE)
@@ -33,7 +35,12 @@ dateShift(x, by = "days", k.by = 1, direction = 1, holidays = NULL, silent = FAL
 }
 \value{
   \code{\link{Date}} vector that is a time shifted version of the input
-  dates. If shifting by \code{"bizdays"}, weekends and holidays will be skipped.
+  dates. If shifting by \code{"bizdays"}, weekends and holidays will be
+  skipped.
+  The class of the returned value is the same as the class of \code{x}
+  for \code{character}, \code{Date}, \code{POSIXct}, and
+  \code{POSIXlt}.  For \code{x} of other classes, the class of the
+  returned value is \code{Date}, but this may change in the future.
 }
 \author{Lars Hansen}
 

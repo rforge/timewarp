@@ -21,6 +21,11 @@ dateFormat <- function(date, format = NULL)
         else
             format <- "%Y-%m-%d"
     }
+    if (Sys.info()[['sysname']] == 'Windows') {
+        format <- gsub('%04Y', '%Y', format)
+        format <- gsub('%02m', '%m', format)
+        format <- gsub('%02d', '%d', format)
+    }
 
     if (is(date, "character"))
         date <- dateParse(date)
@@ -30,5 +35,5 @@ dateFormat <- function(date, format = NULL)
     else if (is(date, "Date") || is(date, "POSIXt"))
         format(date, format)
     else
-        stop("unknow date format: '", class(date), "'")
+        stop("unknown date format: '", class(date), "'")
 }

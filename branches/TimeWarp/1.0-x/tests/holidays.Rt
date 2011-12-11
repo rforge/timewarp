@@ -13,7 +13,7 @@
  [6] "1995-01-01" "1996-01-01" "1997-01-01" "1998-01-01" "1999-01-01"
 [11] "2000-01-01"
 > allHolidays()
-[1] "NewYear" "NONE"
+[1] "NONE"    "NewYear"
 > holidays(1800, "NewYear")
 character(0)
 Warning message:
@@ -26,3 +26,4 @@ In FUN("NewYear"[[1L]], ...) :
 [1] "NONE"
 > holidays(2000, "XXX")
 Error in holidays(2000, "XXX") : No 'XXX' holidays exist.
+> 

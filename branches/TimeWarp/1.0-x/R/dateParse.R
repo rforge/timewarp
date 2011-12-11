@@ -1,11 +1,24 @@
 dateParse <- function(x, format=NULL, stop.on.error=TRUE, quick.try=TRUE,
                       dross.remove=FALSE, na.strings=c("NA", ""),
-                      ymd8=FALSE, note.class=FALSE) {
+                      ymd8=FALSE) {
     if (missing(x) || length(x)==0)
         return(emptyDate())
 
+    # Always return a Date object
+    if (is(x, "Date"))
+        return(x)
+    if (is(x, "POSIXt")) {
+        # To get as.Date() to behave sensibly, need to explicitly
+        # supply tz to as.Date().  Otherwise we get the behavior
+        # where as.Date(as.POSIXct('2011-12-10 19:55:26 EST', tz='EST'))
+        # returns '2011-12-11' (the next day)
+        tz <- attr(x, "tzone")
+        if (is.null(tz))
+            tz <- Sys.timezone()
+        return(as.Date(x, tz=tz))
+    }
     if (is.numeric(x) && ymd8) {
-        # assume that the date is a whole number, not necesarily an integer
+        # assume that the date is a whole number, maybe stored in a float
         if (!is.wholenumber(x)){
             if (stop.on.error) {
                 i <- which(!is.na(x) & floor(x)!=x)
@@ -30,11 +43,6 @@ dateParse <- function(x, format=NULL, stop.on.error=TRUE, quick.try=TRUE,
             }
             else return(NULL)
         }
-        if (note.class)
-        {
-            # should be "integer" or "double"
-            attr(d, "orig.class") <- typeof(x)
-        }
         return(d)
     }
     if (is.factor(x)) {
@@ -43,14 +51,6 @@ dateParse <- function(x, format=NULL, stop.on.error=TRUE, quick.try=TRUE,
                           dross.remove=dross.remove, na.strings=na.strings,
                           ymd8=ymd8)
         d <- levs[as.integer(x)]
-        if (note.class)
-            attr(d, "orig.class") <- "factor"
-        return(d)
-    }
-    if (inherits(x, "dates") || inherits(x, "compactDate")) {
-        d <- as.Date(x)
-        if (note.class)
-            attr(d, "orig.class") <- class(x)
         return(d)
     }
     if (quick.try && length(x)>20) {
@@ -141,6 +141,7 @@ dateParse <- function(x, format=NULL, stop.on.error=TRUE, quick.try=TRUE,
                 i <- c(which(m3>0)[1], which(m3<0)[1])
             else
                 i <- seq(along=x.not.na)
+            i <- i[!is.na(i)]
             stop("cannot find consistent format for dates: ",
                      paste(x.not.na[i[seq(len=min(3, length(i)))]], collapse=", "),
                      if (length(i) > 3) " ...")

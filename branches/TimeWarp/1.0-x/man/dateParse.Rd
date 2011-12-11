@@ -23,8 +23,7 @@ returns \code{NA} for elements that cannot be parsed.)
 }
 \usage{
 dateParse(x, format = NULL, stop.on.error = TRUE, quick.try = TRUE,
-dross.remove = FALSE, na.strings = c("NA", ""), ymd8 = FALSE, note.class
-= FALSE)
+dross.remove = FALSE, na.strings = c("NA", ""), ymd8 = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -56,10 +55,6 @@ return \code{NULL}?
           \code{FALSE} because of potential for confusion with numeric
           security identifiers.
         }
-        \item{note.class}{
-          Should an attribute be attached that notes the
-          original class of \code{x}?  This is intended for internal use and may
-          be removed in the future -- don't depend on it!}
 }
 \details{
         If any elements of \code{x} cannot be interpreted as a
@@ -88,5 +83,13 @@ dateParse("2/14/2002")
 dateParse(c("1962/06/20", "1962/10/30","NA"))
 dateParse(c("19620620", "19621030", "NA"), ymd8 = TRUE)
 dateParse(factor(c("2001/01/01", "2001/01/03", "2001/01/01")))
+# Perverse conversion from POSIXct to Date
+Sys.setenv('TZ'='EST')
+x <- as.POSIXct('2011-12-10 16:55:26 EST')+(0:9)*3600
+# Date rolls to the next day after 19:00 hours for EST
+# (because that it the time the next day is dawning in UTC)
+data.frame(x, as.Date(x))
+# This is the way to get as.Date() to do the sensible thing
+data.frame(x, as.Date(x, tz='EST'))
 }
 \keyword{utilities}

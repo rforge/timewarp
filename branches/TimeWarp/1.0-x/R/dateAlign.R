@@ -1,7 +1,40 @@
 ## Align a dates on a day, bizday, month, week or year boundary.
 
-dateAlign <- function(x, by = 'days', k.by = 1, direction = 1, week.align = NULL,
-                      holidays = NULL, silent = FALSE)
+dateAlign <- function(x, by = 'days', k.by = 1, direction = 1, week.align = NULL, holidays = NULL, silent = FALSE)
+    UseMethod("dateAlign")
+
+dateAlign.character <- function(x, by = 'days', k.by = 1, direction = 1, week.align = NULL, holidays = NULL, silent = FALSE)
+{
+    x <- NextMethod('dateAlign')
+    as.character(x)
+}
+
+dateAlign.POSIXct <- function(x, by = 'days', k.by = 1, direction = 1, week.align = NULL, holidays = NULL, silent = FALSE)
+{
+    tz <- attr(date, 'tzone')
+    x <- NextMethod('dateAlign')
+    # need to convert Date to character before converting back to POSIXct
+    # see examples in tests/gotchas.Rt
+    x <- as.POSIXct(as.character(x))
+    if (!is.null(tz))
+        attr(x, 'tzone') <- tz
+    return(x)
+}
+
+dateAlign.POSIXlt <- function(x, by = 'days', k.by = 1, direction = 1, week.align = NULL, holidays = NULL, silent = FALSE)
+{
+    tz <- attr(date, 'tzone')
+    x <- NextMethod('dateAlign')
+    # need to convert Date to character before converting back to POSIXlt
+    # see examples in tests/gotchas.Rt
+    x <- as.POSIXlt(as.character(x))
+    if (!is.null(tz))
+        attr(x, 'tzone') <- tz
+    return(x)
+}
+
+
+dateAlign.Date <- function(x, by = 'days', k.by = 1, direction = 1, week.align = NULL, holidays = NULL, silent = FALSE)
 {
     ### BEGIN ARGUMENT PROCESSING ###
     if (!inherits(x, "Date"))
@@ -243,3 +276,5 @@ dateAlign <- function(x, by = 'days', k.by = 1, direction = 1, week.align = NULL
 
     as.Date(x)
 }
+
+dateAlign.default <- dateAlign.Date

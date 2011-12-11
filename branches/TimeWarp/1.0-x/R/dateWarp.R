@@ -1,5 +1,42 @@
 dateWarp <- function(date, spec, holidays = NULL, by = "bizdays",
                      direction = 1, duplicates.keep = TRUE)
+    UseMethod("dateWarp")
+
+dateWarp.character <- function(date, spec, holidays = NULL, by = "bizdays",
+                     direction = 1, duplicates.keep = TRUE)
+{
+    x <- NextMethod('dateWarp')
+    as.character(x)
+}
+
+dateWarp.POSIXct <- function(date, spec, holidays = NULL, by = "bizdays",
+                     direction = 1, duplicates.keep = TRUE)
+{
+    tz <- attr(date, 'tzone')
+    x <- NextMethod('dateWarp')
+    # need to convert Date to character before converting back to POSIXct
+    # see examples in tests/gotchas.Rt
+    x <- as.POSIXct(as.character(x))
+    if (!is.null(tz))
+        attr(x, 'tzone') <- tz
+    return(x)
+}
+
+dateWarp.POSIXlt <- function(date, spec, holidays = NULL, by = "bizdays",
+                     direction = 1, duplicates.keep = TRUE)
+{
+    tz <- attr(date, 'tzone')
+    x <- NextMethod('dateWarp')
+    # need to convert Date to character before converting back to POSIXlt
+    # see examples in tests/gotchas.Rt
+    x <- as.POSIXlt(as.character(x))
+    if (!is.null(tz))
+        attr(x, 'tzone') <- tz
+    return(x)
+}
+
+dateWarp.Date <- function(date, spec, holidays = NULL, by = "bizdays",
+                     direction = 1, duplicates.keep = TRUE)
 {
     ### BEGIN ARGUMENT PROCESSING ###
 
@@ -13,7 +50,7 @@ dateWarp <- function(date, spec, holidays = NULL, by = "bizdays",
     {
         date <- dateParse(date)
         if (is.null(date))
-            stop("'date' argument must inherit from the 'Date' class.")
+            stop("'date' argument must inherit or be convertible from the 'Date' class.")
     }
 
     if (!is.null(by))
@@ -268,25 +305,29 @@ dateWarp <- function(date, spec, holidays = NULL, by = "bizdays",
     date
 }
 
-dateWarpAppend <- function(dates, ..., where=c("sorted", "start", "end"), empty.ok=FALSE, duplicates.ok=FALSE) {
+dateWarp.default <- dateWarp.Date
+
+dateWarpAppend <- function(date, ..., where=c("sorted", "start", "end"), empty.ok=FALSE, duplicates.ok=FALSE) {
     where <- match.arg(where)
-    if (!inherits(dates, 'Date'))
-        dates <- dateParse(dates)
-    new.dates <- dateWarp(dates, ...)
-    if (!empty.ok && length(new.dates)==0)
-        stop("no new dates to add")
+    new.date <- dateWarp(date, ...)
+    if (!empty.ok && length(new.date)==0)
+        stop("no new date to add")
+    # handle the perversity that c() on POSIXct does not preserve tzone...
+    tzone <- attr(date, 'tzone')
     if (where=="sorted") {
-        if (!all(diff(dates) >= 0))
-            stop("input dates are not sorted")
-        dates <- sort(c(new.dates, dates))
+        if (!all(diff(date) >= 0))
+            stop("input date are not sorted")
+        date <- sort(c(new.date, date))
     } else if (where=="start") {
-        dates <- c(new.dates, dates)
+        date <- c(new.date, date)
     } else {
-        dates <- c(dates, new.dates)
+        date <- c(date, new.date)
     }
     if (!duplicates.ok){
-        dups <- duplicated(dates)
-        if (any(dups)) dates <- dates[!dups]
+        dups <- duplicated(date)
+        if (any(dups)) date <- date[!dups]
     }
-    dates
+    if (!is.null(tzone))
+        attr(date, 'tzone') <- tzone
+    date
 }

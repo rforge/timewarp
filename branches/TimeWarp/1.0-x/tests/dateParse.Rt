@@ -6,7 +6,7 @@
 > dateParse(c("06/20/1962","1962/10/30","NA"))
 #@ ignore-linebreaks
 Error in dateParse(c("06/20/1962", "1962/10/30", "NA")) : 
-  cannot find consistent format for dates: 06/20/1962, 1962/10/30
+  cannot find consistent format for dates: 1962/10/30, 06/20/1962
 > dateParse(c("06/20/1962","1962/10/30","NA"),stop=F)
 NULL
 > dateParse(c("06/20/1962","10/30/1962","NA"))
@@ -33,7 +33,7 @@ character(0)
 > #[1] 1962-06-20 00:00:00 GMT 1962-10-30 00:00:00 GMT NA                    
 > format(dateParse(c("06/20/1962","10/30/1962","NA")), format="%Y-%m-%d %H:%M:%S", usetz=T)
 [1] "1962-06-20 00:00:00 UTC" "1962-10-30 00:00:00 UTC"
-[3] NA                        
+[3] NA                       
 > #> dateParse(dateParse(c("06/20/1962","10/30/1962","NA"),out.format=options("time.format.full24")[[1]]), zone="MDT")
 > #[1] 1962-06-20 00:00:00 MDT 1962-10-30 00:00:00 MDT NA                     
 > #> dateParse(dateParse(c("06/20/1962","10/30/1962","NA"),out.format=options("time.format.full24")[[1]]))

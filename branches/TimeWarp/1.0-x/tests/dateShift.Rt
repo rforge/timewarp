@@ -432,7 +432,7 @@
 [1] "2007-12-05"
 > dateShift("2007/12/06", by = "days", k.by = 0, direction = -1)
 #@ ignore-linebreaks
-Error in dateShift("2007/12/06", by = "days", k.by = 0, direction = -1) : 
+Error in dateShift.default("2007/12/06", by = "days", k.by = 0, direction = -1) : 
   when using 'by = "days"', 'k.by' must be in the range: 1:30.
 > dateShift("2007/12/06", by = "days", k.by = 1, direction = 1)
 [1] "2007-12-07"
@@ -469,7 +469,7 @@ Error in dateShift("2007/12/06", by = "days", k.by = 0, direction = -1) :
 2009/01/24 (Sat) -> 2009/01/26 (Mon) 
 2009/01/25 (Sun) -> 2009/01/26 (Mon) 
 > # The following checksum agrees with S-PLUS.
-> allDates <- dateSeq("1980/1/1", "2009/1/22")
+> allDates <- dateSeq(as.Date("1980/1/1"), "2009/1/22")
 > length(allDates)
 [1] 10615
 > sum(dateShift(allDates, by = "bizdays", holidays = "NYSEC") - allDates)

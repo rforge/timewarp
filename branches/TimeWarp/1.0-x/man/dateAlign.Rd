@@ -3,6 +3,8 @@
 \title{Date alignment}
 \description{
   Align a date vector the a day, bizday, month, week or year boundary.
+  \code{dateAlign()} is a generic, with
+  methods for \code{character}, \code{Date}, \code{POSIXct}, and \code{POSIXlt}.
 }
 \usage{
 dateAlign(x, by = "days", k.by = 1, direction = 1, week.align = NULL, holidays = NULL, silent = FALSE)
@@ -38,7 +40,7 @@ dateAlign(x, by = "days", k.by = 1, direction = 1, week.align = NULL, holidays =
   }
 }
 \value{
-  \code{Date} vector whose elements are moved up or down (according to
+  Date vector whose elements are moved up or down (according to
   \code{direction}) so that they lie on integer multiples of
   \code{k.by} * \code{by} units of time starting from the beginning of
   the next bigger time unit (e.g. if
@@ -49,6 +51,10 @@ dateAlign(x, by = "days", k.by = 1, direction = 1, week.align = NULL, holidays =
   to "days". Also note that \code{k.by} should be a divisor of the
   number of \code{by} units in the next larger time unit,
   or NA values will result.
+  The class of the returned value is the same as the class of \code{x}
+  for \code{character}, \code{Date}, \code{POSIXct}, and
+  \code{POSIXlt}.  For \code{x} of other classes, the class of the
+  returned value is \code{Date}, but this may change in the future.
 }
 \author{Lars Hansen}
 \note{

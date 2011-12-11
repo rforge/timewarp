@@ -1,6 +1,52 @@
 dateSeq <- function(from = NULL, to = NULL, year = NULL, by = "days",
                     k.by = 1, length.out = NULL, holidays = NULL,
                     align.by = TRUE, extend = FALSE, range = NULL,
+                    week.align = NULL)
+    UseMethod("dateSeq")
+
+dateSeq.character <- function(from = NULL, to = NULL, year = NULL, by = "days",
+                    k.by = 1, length.out = NULL, holidays = NULL,
+                    align.by = TRUE, extend = FALSE, range = NULL,
+                    week.align = NULL)
+{
+    x <- NextMethod('dateSeq')
+    as.character(x)
+}
+
+dateSeq.POSIXct <- function(from = NULL, to = NULL, year = NULL, by = "days",
+                    k.by = 1, length.out = NULL, holidays = NULL,
+                    align.by = TRUE, extend = FALSE, range = NULL,
+                    week.align = NULL)
+{
+    tz <- attr(date, 'tzone')
+    x <- NextMethod('dateSeq')
+    # need to convert Date to character before converting back to POSIXct
+    # see examples in tests/gotchas.Rt
+    x <- as.POSIXct(as.character(x))
+    if (!is.null(tz))
+        attr(x, 'tzone') <- tz
+    return(x)
+}
+
+dateSeq.POSIXlt <- function(from = NULL, to = NULL, year = NULL, by = "days",
+                    k.by = 1, length.out = NULL, holidays = NULL,
+                    align.by = TRUE, extend = FALSE, range = NULL,
+                    week.align = NULL)
+{
+    tz <- attr(date, 'tzone')
+    x <- NextMethod('dateSeq')
+    # need to convert Date to character before converting back to POSIXlt
+    # see examples in tests/gotchas.Rt
+    x <- as.POSIXlt(as.character(x))
+    if (!is.null(tz))
+        attr(x, 'tzone') <- tz
+    return(x)
+}
+
+
+dateSeq.Date <- function(from = NULL, to = NULL, year = NULL, by = "days",
+                    k.by = 1, length.out = NULL, holidays = NULL,
+                    align.by = TRUE, extend = FALSE, range = NULL,
                     week.align = NULL) {
 
     ## Checking 'by' and 'holidays' arguments.
@@ -159,3 +205,5 @@ dateSeq <- function(from = NULL, to = NULL, year = NULL, by = "days",
 
     x
 }
+
+dateSeq.default <- dateSeq.Date

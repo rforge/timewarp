@@ -1,4 +1,38 @@
-dateMatch <- function(x, table, how=c("NA", "before", "after", "nearest", "interp"), error.how=c("NA", "drop", "nearest"), nomatch=NA, offset=NULL,value=FALSE){
+dateMatch <- function(x, table, how=c("NA", "before", "after", "nearest", "interp"), error.how=c("NA", "drop", "nearest"), nomatch=NA, offset=NULL,value=FALSE)
+    UseMethod("dateMatch")
+
+dateMatch.character <- function(x, table, how=c("NA", "before", "after", "nearest", "interp"), error.how=c("NA", "drop", "nearest"), nomatch=NA, offset=NULL,value=FALSE)
+{
+    x <- NextMethod('dateMatch')
+    as.character(x)
+}
+
+dateMatch.POSIXct <- function(x, table, how=c("NA", "before", "after", "nearest", "interp"), error.how=c("NA", "drop", "nearest"), nomatch=NA, offset=NULL,value=FALSE)
+{
+    tz <- attr(date, 'tzone')
+    x <- NextMethod('dateMatch')
+    # need to convert Date to character before converting back to POSIXct
+    # see examples in tests/gotchas.Rt
+    x <- as.POSIXct(as.character(x))
+    if (!is.null(tz))
+        attr(x, 'tzone') <- tz
+    return(x)
+}
+
+dateMatch.POSIXlt <- function(x, table, how=c("NA", "before", "after", "nearest", "interp"), error.how=c("NA", "drop", "nearest"), nomatch=NA, offset=NULL,value=FALSE)
+{
+    tz <- attr(date, 'tzone')
+    x <- NextMethod('dateMatch')
+    # need to convert Date to character before converting back to POSIXlt
+    # see examples in tests/gotchas.Rt
+    x <- as.POSIXlt(as.character(x))
+    if (!is.null(tz))
+        attr(x, 'tzone') <- tz
+    return(x)
+}
+
+dateMatch.Date <- function(x, table, how=c("NA", "before", "after", "nearest", "interp"), error.how=c("NA", "drop", "nearest"), nomatch=NA, offset=NULL,value=FALSE)
+{
     if (is.null(how))
         how <- "NA"
     else
@@ -7,7 +41,7 @@ dateMatch <- function(x, table, how=c("NA", "before", "after", "nearest", "inter
         error.how <- "NA"
     else
         error.how <- match.arg(error.how)
-    
+
     # return indices of x in table
     if (!inherits(x, 'Date'))
         x <- dateParse(x)
@@ -34,7 +68,7 @@ dateMatch <- function(x, table, how=c("NA", "before", "after", "nearest", "inter
 			if (any(idxNA)){
 				if (error.how=='NA' || error.how=='nearest') {
 					idx[idxNA] <- nomatch
-				} else if (error.how=='drop'){	
+				} else if (error.how=='drop'){
 					idx <- idx[!idxNA]
 				}
 			}
@@ -47,7 +81,7 @@ dateMatch <- function(x, table, how=c("NA", "before", "after", "nearest", "inter
 
 				if (error.how=='NA') {
 					idx[idx==0] <- nomatch
-				} else if (error.how=='drop'){	
+				} else if (error.how=='drop'){
 					idx <- idx[idx>0]
 				} else if (error.how=='nearest') {
 					idx[idx==0] <- 1
@@ -59,7 +93,7 @@ dateMatch <- function(x, table, how=c("NA", "before", "after", "nearest", "inter
 
 				if (error.how=='NA') {
 					idx[idx>N] <- nomatch
-				} else if (error.how=='drop'){	
+				} else if (error.how=='drop'){
 					idx <- idx[idx<=N]
 				} else if (error.how=='nearest') {
 					idx[idx>N] <- N
@@ -117,7 +151,7 @@ dateMatch <- function(x, table, how=c("NA", "before", "after", "nearest", "inter
 
 				if (error.how=='NA') {
 					idx[idx==0|idx==-1] <- nomatch
-				} else if (error.how=='drop'){	
+				} else if (error.how=='drop'){
 					idx <- idx[idx>0]
 				} else if (error.how=='nearest') {
 					idx[idx==-1] <- N
@@ -154,3 +188,5 @@ dateMatch <- function(x, table, how=c("NA", "before", "after", "nearest", "inter
     else
         return(idx)
 }
+
+dateMatch.default <- dateMatch.Date

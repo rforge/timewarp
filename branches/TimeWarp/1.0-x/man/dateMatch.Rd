@@ -3,6 +3,8 @@
 \title{Match Dates in a Table}
 \description{
 Return the indices of dates in a table that match, according to rules "before", "after", etc.
+\code{dateMatch()} is a generic, with
+methods for \code{character}, \code{Date}, \code{POSIXct}, and \code{POSIXlt}.
 }
 \usage{
 dateMatch(x, table, how=c("NA", "before", "after", "nearest", "interp"), error.how=c("NA", "drop", "nearest"), nomatch=NA, offset=NULL, value=FALSE)
@@ -62,7 +64,15 @@ dateMatch(x, table, how=c("NA", "before", "after", "nearest", "interp"), error.h
 	Uses \code{match} and \code{findInterval} to perform matching.
 }
 \value{
-	The indices of the matches for the elements of \code{x} in \code{table}, or the actual matching values from \code{table} if \code{value==TRUE}
+The indices of the matches for the elements of \code{x} in \code{table},
+or the actual matching values from \code{table} if
+\code{value==TRUE}.
+In the latter case, the class of the returned value is the same as the class of \code{x}
+  for \code{character}, \code{Date}, \code{POSIXct}, and
+  \code{POSIXlt}.  For \code{x} of other classes, the class of the
+  returned value is \code{Date}, but this may change in the future.
+
+	
 }
 \examples{
 d1 <- dateParse(c("2001/01/10", "2001/03/12"))

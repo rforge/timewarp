@@ -4,10 +4,12 @@
 \title{Date vector shifting and alignment}
 \description{
   Perform multiple shifts and alignments on \code{\link{Date}} vectors.
+  \code{dateWarp()} and \code{dateWarpAppend()} are generics, with
+  methods for \code{character}, \code{Date}, \code{POSIXct}, and \code{POSIXlt}.
 }
 \usage{
 dateWarp(date, spec, holidays = NULL, by = "bizdays", direction = 1, duplicates.keep = TRUE)
-dateWarpAppend(dates, ..., where = c("sorted", "start", "end"), empty.ok
+dateWarpAppend(date, ..., where = c("sorted", "start", "end"), empty.ok
 = FALSE, duplicates.ok = FALSE)
 }
 
@@ -36,10 +38,6 @@ dateWarpAppend(dates, ..., where = c("sorted", "start", "end"), empty.ok
         }
         \item{duplicates.keep}{
           logical indicating whether or not to keep duplicate dates.
-        }
-        \item{dates}{
-          a \code{\link{Date}} vector, or a character vector that can be
-          converted to \code{\link{Date}} by \code{\link{dateParse}}.
         }
         \item{\dots}{
           arguments to pass to \code{dateWarp}.
@@ -93,10 +91,14 @@ dateWarpAppend(dates, ..., where = c("sorted", "start", "end"), empty.ok
   }
 }
 \value{
-  A \code{\link{Date}} vector that is a transformed version of the input
+  A date vector that is a transformed version of the input
   dates. Multiple shift or alignment transfations can be specified. If
   more that one is given, each vill be applied in turn to the result of
   the previous one.
+  The class of the returned value is the same as the class of \code{date}
+  for \code{character}, \code{Date}, \code{POSIXct}, and
+  \code{POSIXlt}.  For \code{date} of other classes, the class of the
+  returned value is \code{Date}, but this may change in the future.
 }
 \author{Lars Hansen}
 \seealso{
