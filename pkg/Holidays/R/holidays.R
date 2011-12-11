@@ -1,13 +1,12 @@
 .onLoad <- function(lib, pkg)
 {
-    library(TimeWarp)
-
     ## Most of the holiday date series here have New Years Day for a few more
     ## years beyond the end of known data - having one day holiday in the
     ## data for a year helps catch lack of holiday data in other programs.
     ## These New Years Days holidays are calculated as the nearest weekday
     ## to Jan 1st and may not be NOT correct for the exchange, because
-    ## different exchanges can use different rules.
+    ## different exchanges can use different rules for when to take
+    ## the New Years Day holiday (if at all.)
 
     ###########################################################################
     ##
@@ -391,9 +390,9 @@
     ##
     ## The weekday day closest to new year's day, which seems to be the only day of
     ## the year on which there are no prices for international stocks.
-    ## Note that this doesn't seem to be the right rule for GBR, at least: they
+    ## Note that this doesn't seem to be the holiday rule for GBR, at least: they
     ## have 01/03 as New Year's day for 2005 (2005/01/01 is a Saturday)
-    ## Neither is the right rule for NYSE: they don't have any day off
+    ## Neither is holiday rule for NYSE: they don't have any day off
     ## for 2005/01/01.
     ##
     ##
@@ -411,6 +410,8 @@
     ###########################################################################
     ##
     ## NYSE
+    ## This list includes holidays but not unsheduled closings, e.g., for funerals of
+    ## presidents and for events that force closings.
     ##
     ##
     registerHolidays('NYSE', dateParse(
@@ -478,6 +479,8 @@
     ###########################################################################
     ##
     ## NYSE.Closings
+    ## These need to be updated when there is a closing.
+    ## NYSE traditionally closes for the funeral of a President of the US
     ##
     registerHolidays('NYSE.Closings', dateParse(
     c(
