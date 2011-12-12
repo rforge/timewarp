@@ -1,7 +1,40 @@
 ## Align a dates on a day, bizday, month, week or year boundary.
 
-dateAlign <- function(x, by = 'days', k.by = 1, direction = 1, week.align = NULL,
-                      holidays = NULL, silent = FALSE)
+dateAlign <- function(x, by = 'days', k.by = 1, direction = 1, week.align = NULL, holidays = NULL, silent = FALSE)
+    UseMethod("dateAlign")
+
+dateAlign.character <- function(x, by = 'days', k.by = 1, direction = 1, week.align = NULL, holidays = NULL, silent = FALSE)
+{
+    x <- NextMethod('dateAlign')
+    as.character(x)
+}
+
+dateAlign.POSIXct <- function(x, by = 'days', k.by = 1, direction = 1, week.align = NULL, holidays = NULL, silent = FALSE)
+{
+    tz <- attr(date, 'tzone')
+    x <- NextMethod('dateAlign')
+    # need to convert Date to character before converting back to POSIXct
+    # see examples in tests/gotchas.Rt
+    x <- as.POSIXct(as.character(x))
+    if (!is.null(tz))
+        attr(x, 'tzone') <- tz
+    return(x)
+}
+
+dateAlign.POSIXlt <- function(x, by = 'days', k.by = 1, direction = 1, week.align = NULL, holidays = NULL, silent = FALSE)
+{
+    tz <- attr(date, 'tzone')
+    x <- NextMethod('dateAlign')
+    # need to convert Date to character before converting back to POSIXlt
+    # see examples in tests/gotchas.Rt
+    x <- as.POSIXlt(as.character(x))
+    if (!is.null(tz))
+        attr(x, 'tzone') <- tz
+    return(x)
+}
+
+
+dateAlign.Date <- function(x, by = 'days', k.by = 1, direction = 1, week.align = NULL, holidays = NULL, silent = FALSE)
 {
     ### BEGIN ARGUMENT PROCESSING ###
     if (!inherits(x, "Date"))
@@ -17,11 +50,21 @@ dateAlign <- function(x, by = 'days', k.by = 1, direction = 1, week.align = NULL
     if (length(by) > 1)
         stop("'by' must be scalar.")
 
+    if (length(byhol <- strsplit(by, '@')[[1]]) == 2) {
+        if (!is.null(holidays))
+            stop("cannot have both holidays = ", holidays, " and by = '", by, "'")
+        by <- byhol[1]
+        holidays <- byhol[2]
+    }
+
     if (!(by %in% c('days', 'bizdays', 'weeks', 'months', 'years')))
         stop("'by' must be one of 'days', 'bizdays', 'weeks', 'months', 'years'.")
 
     if (length(k.by) > 1)
         stop("'k.by' must be scalar.")
+
+    if (!is.null(week.align) && by != 'weeks')
+        warning("ignoring week.align = ", week.align, " when by != 'weeks'")
 
     k.by <- as.integer(k.by)
 
@@ -243,3 +286,5 @@ dateAlign <- function(x, by = 'days', k.by = 1, direction = 1, week.align = NULL
 
     as.Date(x)
 }
+
+dateAlign.default <- dateAlign.Date

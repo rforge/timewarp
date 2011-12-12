@@ -1,8 +1,39 @@
 ## Shift dates a number of days, bizdays, months, weeks or years.
 
+dateShift <- function(x, by = 'days', k.by = 1, direction = 1, holidays = NULL, silent = FALSE)
+    UseMethod("dateShift")
 
-dateShift <- function(x, by = 'days', k.by = 1, direction = 1,
-                      holidays = NULL, silent = FALSE)
+dateShift.character <- function(x, by = 'days', k.by = 1, direction = 1, holidays = NULL, silent = FALSE)
+{
+    x <- NextMethod('dateShift')
+    as.character(x)
+}
+
+dateShift.POSIXct <- function(x, by = 'days', k.by = 1, direction = 1, holidays = NULL, silent = FALSE)
+{
+    tz <- attr(date, 'tzone')
+    x <- NextMethod('dateShift')
+    # need to convert Date to character before converting back to POSIXct
+    # see examples in tests/gotchas.Rt
+    x <- as.POSIXct(as.character(x))
+    if (!is.null(tz))
+        attr(x, 'tzone') <- tz
+    return(x)
+}
+
+dateShift.POSIXlt <- function(x, by = 'days', k.by = 1, direction = 1, holidays = NULL, silent = FALSE)
+{
+    tz <- attr(date, 'tzone')
+    x <- NextMethod('dateShift')
+    # need to convert Date to character before converting back to POSIXlt
+    # see examples in tests/gotchas.Rt
+    x <- as.POSIXlt(as.character(x))
+    if (!is.null(tz))
+        attr(x, 'tzone') <- tz
+    return(x)
+}
+
+dateShift.Date <- function(x, by = 'days', k.by = 1, direction = 1, holidays = NULL, silent = FALSE)
 {
     ### BEGIN ARGUMENT PROCESSING ###
     if (!inherits(x, "Date"))
@@ -17,6 +48,13 @@ dateShift <- function(x, by = 'days', k.by = 1, direction = 1,
 
     if (length(by) > 1)
         stop("'by' must be scalar.")
+
+    if (length(byhol <- strsplit(by, '@')[[1]]) == 2) {
+        if (!is.null(holidays))
+            stop("cannot have both holidays = ", holidays, " and by = '", by, "'")
+        by <- byhol[1]
+        holidays <- byhol[2]
+    }
 
     if (!(by %in% c('days', 'bizdays', 'weeks', 'months', 'years')))
         stop("'by' must be one of 'days', 'bizdays', 'weeks', 'months', 'years'.")
@@ -96,3 +134,5 @@ dateShift <- function(x, by = 'days', k.by = 1, direction = 1,
 
     as.Date(x)
 }
+
+dateShift.default <- dateShift.Date

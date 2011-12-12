@@ -1,0 +1,5 @@
+                CHANGES in TimeWarp version 1.0-13 (2011-12-10)
+CHANGES
+    o   All functions that manipulate dates are now generic so
+    	that they return the same class of object as they are
+	given: character, Date, POSIXct, and POSIXlt.

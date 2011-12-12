@@ -3,6 +3,8 @@
 \title{Create a sequence of Dates}
 \description{
 Generate a sequence of dates. Based on \code{\link{seq.Date}}, but adds support for business day and holiday sequencing.
+  \code{dateSeq()} is a generic, with
+  methods for \code{character}, \code{Date}, \code{POSIXct}, and \code{POSIXlt}.
 }
 \usage{
 dateSeq(from = NULL, to = NULL, year = NULL, by = "days", k.by = 1, length.out = NULL, holidays = NULL, align.by = TRUE, extend = FALSE, range = NULL, week.align = NULL)
@@ -47,7 +49,11 @@ dateSeq(from = NULL, to = NULL, year = NULL, by = "days", k.by = 1, length.out =
         }
 }
 \value{
-        A \code{\link{Date}} vector.
+        A vector of dates.
+  The class of the returned value is the same as the class of \code{from}
+  for \code{character}, \code{Date}, \code{POSIXct}, and
+  \code{POSIXlt}.  For \code{from} of other classes, the class of the
+  returned value is \code{Date}, but this may change in the future.
 }
 \examples{
 dateSeq("2008-12-20", "2009-1-10")

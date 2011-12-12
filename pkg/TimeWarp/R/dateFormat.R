@@ -21,14 +21,19 @@ dateFormat <- function(date, format = NULL)
         else
             format <- "%Y-%m-%d"
     }
+    if (Sys.info()[['sysname']] == 'Windows') {
+        format <- gsub('%04Y', '%Y', format)
+        format <- gsub('%02m', '%m', format)
+        format <- gsub('%02d', '%d', format)
+    }
 
-    if (is(date, "character"))
+    if (is.character(date))
         date <- dateParse(date)
 
-    if (is(date, "dates"))
+    if (inherits(date, "dates"))
         format(as.POSIXct(date), format)
-    else if (is(date, "Date") || is(date, "POSIXt"))
+    else if (inherits(date, "Date") || is(date, "POSIXt"))
         format(date, format)
     else
-        stop("unknow date format: '", class(date), "'")
+        stop("unknown date format: '", class(date), "'")
 }

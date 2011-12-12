@@ -22,7 +22,7 @@ Linux and Windows R. Here are a few for the difference found in 2008:
 \item{Windows version does not recognize width arguments like
    "\%02d".}
 \item{Windows and Linux does not agree on the meaning of "\%Y".
-   Under Windows it means "\%04Y"; under Linux it print with
+   Under Windows it means "\%04Y"; under Linux it prints with
    minimal width.}
  }
 
@@ -36,6 +36,7 @@ The formatted dates as a vector of character data.
 }
 \author{ Tony Plate }
 \examples{
+dateFormat(as.Date('2001-02-13'), '\%Y.\%02m.\%02d')
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
