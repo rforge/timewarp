@@ -22,6 +22,10 @@ This functionality is currently implemented for \code{Date},
 classes, functions from this package will currently return a \code{Date}
 vector, but that may change as other classes are added.
 
+Version 1.0 of \code{TimeWarp} does not handle times on \code{POSIXct} and
+\code{POSIXlt}: the functions in \code{TimeWarp} will return the same
+type of object stripped of times.  This may change in the future.
+
 }
 \author{
 Jeffrey Horner, Lars Hansen, Tony Plate
@@ -34,6 +38,9 @@ Maintainer: Tony Plate \email{tplate@acm.org}
 }
 \examples{
 library(Holidays)
+# View counts of registered holidays by year
+sapply(as.character(1998:2012), function(y) sapply(allHolidays(), function(h) length(holidays(y, h, silent=TRUE))))
+
 # Find US option expiration dates in 2011 (The pricing day, usually a Friday)
 
 # Technically speaking, standardized options expire on the Saturday
@@ -42,13 +49,11 @@ library(Holidays)
 # the least number of scheduling conflicts, i.e. holidays.
 
 # When an options expiration date falls on a holiday, all trading dates
-# are moved forward. For example, in 2008, options expiration date falls
+# are moved earlier. For example, in 2008, options expiration date falls
 # on Good Friday. In this situation, options will still expire on
 # Saturday following Good Friday -- however the last trading day for
 # Equity options will be the Thursday preceding the Good Friday trading
-# holiday. The last trading date for many Broad-Based Index products
-# will be Wednesday -- with A.M. settlement values determined based on
-# an index component's opening price on Thursday.
+# holiday.
 
 yy <- 2011
 (d1 <- dateSeq(paste(yy, '-01-01', sep=''), len=12, by='months'))

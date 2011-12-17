@@ -1,15 +1,15 @@
-dateWarp <- function(date, spec, holidays = NULL, by = "bizdays",
+dateWarp <- function(date, spec, holidays = NULL, by = NULL,
                      direction = 1, duplicates.keep = TRUE)
     UseMethod("dateWarp")
 
-dateWarp.character <- function(date, spec, holidays = NULL, by = "bizdays",
+dateWarp.character <- function(date, spec, holidays = NULL, by = NULL,
                      direction = 1, duplicates.keep = TRUE)
 {
     x <- NextMethod('dateWarp')
     as.character(x)
 }
 
-dateWarp.POSIXct <- function(date, spec, holidays = NULL, by = "bizdays",
+dateWarp.POSIXct <- function(date, spec, holidays = NULL, by = NULL,
                      direction = 1, duplicates.keep = TRUE)
 {
     tz <- attr(date, 'tzone')
@@ -22,7 +22,7 @@ dateWarp.POSIXct <- function(date, spec, holidays = NULL, by = "bizdays",
     return(x)
 }
 
-dateWarp.POSIXlt <- function(date, spec, holidays = NULL, by = "bizdays",
+dateWarp.POSIXlt <- function(date, spec, holidays = NULL, by = NULL,
                      direction = 1, duplicates.keep = TRUE)
 {
     tz <- attr(date, 'tzone')
@@ -35,7 +35,7 @@ dateWarp.POSIXlt <- function(date, spec, holidays = NULL, by = "bizdays",
     return(x)
 }
 
-dateWarp.Date <- function(date, spec, holidays = NULL, by = "bizdays",
+dateWarp.Date <- function(date, spec, holidays = NULL, by = NULL,
                      direction = 1, duplicates.keep = TRUE)
 {
     ### BEGIN ARGUMENT PROCESSING ###

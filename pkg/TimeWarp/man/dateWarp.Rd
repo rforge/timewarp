@@ -4,11 +4,11 @@
 \title{Date vector shifting and alignment}
 \description{
   Perform multiple shifts and alignments on \code{\link{Date}} vectors.
-  \code{dateWarp()} and \code{dateWarpAppend()} are generics, with
+  \code{dateWarp()} is a generic, with
   methods for \code{character}, \code{Date}, \code{POSIXct}, and \code{POSIXlt}.
 }
 \usage{
-dateWarp(date, spec, holidays = NULL, by = "bizdays", direction = 1, duplicates.keep = TRUE)
+dateWarp(date, spec, holidays = NULL, by = NULL, direction = 1, duplicates.keep = TRUE)
 dateWarpAppend(date, ..., where = c("sorted", "start", "end"), empty.ok
 = FALSE, duplicates.ok = FALSE)
 }
@@ -65,26 +65,28 @@ dateWarpAppend(date, ..., where = c("sorted", "start", "end"), empty.ok
     or "+3". 'by' and 'holidays' specifications are extracted from
     the string as appropriate, and override any previously specified
     or given in arguments.
-    \item a named list of elements. The elements can be a mix of
-    list or scalars. The scalar items can be named:
+    \item a named list of elements. The elements can be lists or
+    vectors. The names on the elements specify instructions:
     \describe{
-      \item{unique}{the item value can be either numeric or
-        logical. No matter the value, the dates will be made unique}
-      \item{latest}{the item is a \code{Date} or a character that can
+      \item{unique}{the actual value of the list element is ignored.
+        The action is to remove duplicates from the results, i.e., make
+        the dates unique.}
+      \item{latest}{the value of the list element is a \code{Date} or a character that can
         be converted to a \code{Date} with
-        \code{\link{dateParse}}. The dates will be clipped at
-        the specified \code{Date}.}
-      \item{earliest}{the item is a \code{Date} or a character that can
+        \code{\link{dateParse}}. The dates will be clipped to be no
+        later than the specified \code{Date}.}
+      \item{earliest}{the value of the list element is a \code{Date} or a character that can
         be converted to a \code{Date} with
-        \code{\link{dateParse}}. The dates will be clipped at
-        the specified \code{Date}.}
-    }
-    The list items can be named:
-    \describe{
-      \item{shift}{the list will be used as arguments to a call
-        of \code{\link{dateShift}}}
-      \item{align}{the list will be used as arguments to a call
-        of \code{\link{dateAlign}}}
+        \code{\link{dateParse}}. The dates will be clipped to be no earlier
+        than the specified \code{Date}.}
+      \item{shift}{the \code{spec} list element is a list that will be used as arguments to a call
+        of \code{\link{dateShift}}. If any are not specified in the list,
+        the values of the \code{by}, \code{holidays}, and \code{direction} arguments given to
+        \code{dateWarp()} are passed to \code{dateShift}.}
+      \item{align}{the \code{spec} list element is a list that will be used as arguments to a call
+        of \code{\link{dateAlign}}. If any are not specified in the list,
+        the values of the \code{by}, \code{holidays}, and \code{direction} arguments given to
+        \code{dateWarp()} are passed to \code{dateShift}.}
     }
     If not all arguments are not provided, the {dateWarp}
     arguments will be used instead.
@@ -106,26 +108,45 @@ dateWarpAppend(date, ..., where = c("sorted", "start", "end"), empty.ok
   \code{\link{dateShift}},
   \code{\link{dateMatch}},
   \code{\link{dateParse}},
-  \code{\link{dateSeq}}
+  and \code{\link{dateSeq}}
+
+  The \code{Holidays} package contains holidays data, which is
+  registered with the \code{TimeWarp} package when the \code{Holidays}
+  package is loaded.
 }
 \examples{
 library(Holidays)
 dates <- dateSeq("2001/12/20", by = 'bizdays', len = 9, holidays = "NYSEC")
-dateWarp(dates, -1:1, by = "bizdays", holidays = "NYSEC", duplicates.keep =
-FALSE)
+dateWarp(dates, -1:1, by = "bizdays", holidays = "NYSEC", duplicates.keep = FALSE)
 dateWarp(dates, "+1 bizdays@NYSEC")
 dateWarp(dates, list(0:6), by = "bizdays@NYSEC")
 dateWarp(dates, list(-1:1, unique = TRUE), by = "bizdays")
 dateWarp(dates, list(latest = "2001/12/25"))
 x <- dateSeq("2001/01/01", len = 4, by = "weeks")
 dateWarp(dates, list(align = list(to = x, how = "after")))
-dateWarp(dates, list(shift = list(by = "bizdays", k.by = 2, direction =
-1, holidays = "NYSEC"), shift = 2), by = "days", direction = -1,
+dateWarp(dates, list(shift = list(by = "bizdays", k.by = 2, direction = 1, holidays = "NYSEC"),
+                     shift = 2),
+         by = "days", direction = -1,
 holidays = "NONE")
-dateWarp(dates, hol = "NYSEC", list(shift = list(k.by = 1, by = "months"),
-shift=list(k.by = -1, by = "bizdays")))
-dateWarp(dates, list(align = list(by = "bizdays"), shift = list(by =
-"months", k.by = 2), holidays = "JPNEX"))
+dateWarp(dates, hol = "NYSEC",
+         list(shift = list(k.by = 1, by = "months"),
+         shift=list(k.by = -1, by = "bizdays")))
+dateWarp(dates, list(align = list(by = "bizdays"),
+                     shift = list(by = "months", k.by = 2), holidays = "JPNEX"))
+
+# Options expirations dates in 2008
+(d1 <- dateSeq('2008-01-01', len=12, by='months'))
+(d2 <- dateAlign(d1, by='months', dir=-1))
+(d3 <- dateAlign(d2, by='weeks', week.align=5))
+(d4 <- dateWarp(d3, 14, by='days'))
+(d5 <- dateAlign(d4, by='bizdays@NYSEC', dir=-1))
+# Version that uses a list 'spec' to dateWarp
+dateWarp(d1, list(align=list(by='months', dir=-1),
+                  align=list(by='weeks', week.align=5),
+                  shift=list(by='days', 14),
+                  align=list(by='bizdays@NYSEC', dir=-1)))
+# In 2008 the March options expiration is a Thursday because Friday was a holiday
+dateDow(d5)
 }
 
 \keyword{utilities}

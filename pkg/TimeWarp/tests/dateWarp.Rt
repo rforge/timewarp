@@ -325,7 +325,7 @@ Error in dateWarp.Date(x3, "+1 NYSEC") : could not parse 'by' out of 'NYSEC'.
 2009/01/04 (Sun) -> 2009/01/03 (Sat) 
 2009/01/05 (Mon) -> 2009/01/04 (Sun) 
 2009/01/06 (Tue) -> 2009/01/05 (Mon) 
-> pp(x3, dateWarp(x3, "-2"))
+> pp(x3, dateWarp(x3, "-2", by='bizdays'))
 2008/12/27 (Sat) -> 2008/12/25 (Thu) 
 2008/12/28 (Sun) -> 2008/12/25 (Thu) 
 2008/12/29 (Mon) -> 2008/12/25 (Thu) 
@@ -337,7 +337,7 @@ Error in dateWarp.Date(x3, "+1 NYSEC") : could not parse 'by' out of 'NYSEC'.
 2009/01/04 (Sun) -> 2009/01/01 (Thu) 
 2009/01/05 (Mon) -> 2009/01/01 (Thu) 
 2009/01/06 (Tue) -> 2009/01/02 (Fri) 
-> pp(x3, dateWarp(x3, -3))
+> pp(x3, dateWarp(x3, -3, by='bizdays'))
 2008/12/27 (Sat) -> 2008/12/24 (Wed) 
 2008/12/28 (Sun) -> 2008/12/24 (Wed) 
 2008/12/29 (Mon) -> 2008/12/24 (Wed) 
@@ -491,7 +491,7 @@ Error in dateWarp.Date(x5, list(align = list(by = "bizdays@NYSEC", k.by = 1,  :
 2009/01/01 (Thu) -> 2008/12/30 (Tue) 
 2009/01/02 (Fri) -> 2008/12/30 (Tue) 
 2009/01/03 (Sat) -> 2008/12/30 (Tue) 
-> date <- as.Date("2009/1/1") + -8:2; pp(date, dateWarp(date, list(align = list(k.by = 1, direction = -1, holidays = "NYSEC"))))
+> date <- as.Date("2009/1/1") + -8:2; pp(date, dateWarp(date, list(align = list(k.by = 1, direction = -1, by = 'bizdays', holidays = "NYSEC"))))
 2008/12/24 (Wed) -> 2008/12/24 (Wed) 
 2008/12/25 (Thu) -> 2008/12/24 (Wed) 
 2008/12/26 (Fri) -> 2008/12/26 (Fri) 
@@ -805,7 +805,7 @@ Error in dateWarp.default(d, hol = "NYSEC", by = "bizdays", list(last = list(of 
 Time difference of 19181 days
 > sum(allDates - dateWarp(allDates, list(align = list(by = "bizdays"), shift = list(by = "days", -5), shift = list(by = "bizdays")), holidays = "NYSEC"))
 Time difference of 32078 days
->
+> 
 > # Check that class of result is class of argument
 > class(dateWarp("2006/10/04", list("-1 months")))
 [1] "character"

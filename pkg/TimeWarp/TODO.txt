@@ -1,23 +1,5 @@
-- put in example of option expiration dates
-xoeDates <- timeDate.dow(warp(dateSeq('2011-01-01', '2011-12-31', by="months", align.to="months", align.to.dir=-1), list(align=list(week.align=5,by="weeks"),shift=list(14,by="days"),align=list(by="bizdays@NYSEC",dir=-1))))
-
-# Find option expiration dates in 2011
-yy <- 2011
-(d1 <- dateSeq(paste(yy, '-01-01', sep=''), len=12, by='months'))
-(d2 <- dateAlign(d1, by='months', dir=-1))
-(d3 <- dateAlign(d2, by='weeks', week.align=5))
-(d4 <- dateWarp(d3, 14, by='days'))
-(d5 <- dateAlign(d4, by='bizdays@NYSEC', dir=-1))
-
-# Find option expiration dates that have been shifted because they would have
-# occured on a holiday
-yy <- 1990
-d1 <- dateSeq(paste(yy, '-01-01', sep=''), len=288, by='months')
-d2 <- dateAlign(d1, by='months', dir=-1)
-d3 <- dateAlign(d2, by='weeks', week.align=5)
-d4 <- dateWarp(d3, 14, by='days')
-d5 <- dateAlign(d4, by='bizdays@NYSEC', dir=-1)
-data.frame(holiday=d4, option.expiration=d5)[which(d4 != d5), ]
+- make TimeWarp work with date/times:
+    make the base function for dateAlign/dateShift use POSIXlt (it already does this inside the function, after converting to Date)
 
 - make dateWarp able to take a list of specs and do aligns
   as well as shifts (get examples/tests from the S-PLUS

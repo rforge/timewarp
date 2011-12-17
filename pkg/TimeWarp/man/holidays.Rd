@@ -42,7 +42,7 @@ isHoliday(dates, type)
 
 	\code{allHolidays} returns a character vector of all holiday
 	\code{type}'s known to the database.
-	
+
 	\code{isHoliday} returns a logical vector with TRUE of all
 	holidays in input.
 }
@@ -52,5 +52,9 @@ registerHolidays('NEWYEAR', as.Date(ISOdate(1900:2000,1,1)))
 
 # Return all New Year days for the 1990's
 holidays(1990:2000,'NEWYEAR')
+
+# View counts of registered holidays by year
+sapply(as.character(1998:2012), function(y) sapply(allHolidays(), function(h) length(holidays(y, h, silent=TRUE))))
+
 }
 \keyword{utilities}
