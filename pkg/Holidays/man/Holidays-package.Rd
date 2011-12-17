@@ -26,3 +26,8 @@ Maintainer: Tony Plate \email{tplate@acm.org}
 From the TimeWarp package: \code{\link[TimeWarp]{holidays}},
 \code{\link[TimeWarp]{registerHolidays}}, \code{\link[TimeWarp]{allHolidays}}.
 }
+\examples{
+# View counts of registered holidays by year
+sapply(as.character(1998:2012), function(y) sapply(allHolidays(), function(h) length(holidays(y, h, silent=TRUE))))
+}
+

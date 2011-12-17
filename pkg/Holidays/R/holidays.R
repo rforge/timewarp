@@ -7,6 +7,13 @@
     ## to Jan 1st and may not be NOT correct for the exchange, because
     ## different exchanges can use different rules for when to take
     ## the New Years Day holiday (if at all.)
+    ##
+    ## It is OK to have weekend dates in the holiday data -- will have no
+    ## effect.
+
+    ## Sources of trading holiday data:
+    ##   http://www.jquantlib.org/index.php/Exchange_Holidays
+    ##   http://www.asiaetrading.com/resource/holiday-calendar/
 
     ###########################################################################
     ##
@@ -76,6 +83,18 @@
         "2009/01/01", "2009/01/26", "2009/04/10", "2009/04/13",
         "2009/06/08", "2009/12/25", "2009/12/28",
 
+        ## from http://www.asx.com.au/trading_services/sycom-trading-calendar-2010.htm
+        "2010/01/01", "2010/01/26", "2010/04/02", "2010/04/05", "2010/04/26",
+        "2010/06/13", "2010/12/26", "2010/12/27",
+
+        ## from http://www.asx.com.au/trading_services/asx-24-trading-calendar-2011.htm
+        "2011/01/03", "2011/01/26", "2011/04/22", "2011/04/25", "2011/04/26",
+        "2011/06/14", "2011/12/27", "2011/12/28",
+
+        ## from http://www.asx.com.au/trading_services/asx-24-trading-calendar-2011.htm
+        "2012/01/02", "2012/01/26", "2012/04/06", "2012/04/09", "2012/04/25",
+        "2012/06/11", "2012/12/25", "2012/12/26",
+
         ## Check holidays on Bloomberg with "CDR AU 2009", though that shows up lots
         ## of extras that are holidays in Australia, but for which the market is open
 
@@ -85,7 +104,7 @@
         ## they are calculated using the rule:
         ## holiday.nearest.weekday(holiday.NewYears(years))
         ## However, different exchanges have different days as New Years Day holiday
-        "2010/01/01", "2010/12/31", "2012/01/02", "2013/01/01", "2014/01/01"
+        "2013/01/01", "2014/01/01", "2015/01/01"
     )))
 
     ###########################################################################
@@ -278,6 +297,22 @@
         "2009/05/03", "2009/05/04", "2009/05/05", "2009/05/06", "2009/07/20", "2009/09/21",
         "2009/09/22", "2009/09/23", "2009/10/12", "2009/11/03", "2009/11/23", "2009/12/23", "2009/12/31",
 
+        ## 2010 data is from http://www.timeanddate.com/calendar/?year=2010&country=26
+        ## agrees with http://www.asiaetrading.com/resource/holiday-calendar/
+        "2010/01/01", "2010/01/02", "2010/01/03", "2010/01/11", "2010/02/11", "2010/03/22", "2010/04/29",
+        "2010/05/03", "2010/05/04", "2010/05/05", "2010/07/19", "2010/09/20",
+        "2010/09/23", "2010/10/11", "2010/11/03", "2010/11/23", "2010/12/23", "2010/12/31",
+
+        ## 2011 data is from http://www.tse.or.jp/english/about/calendar.html
+        "2011/01/01", "2011/01/02", "2011/01/03", "2011/01/10", "2011/02/11", "2011/03/21", "2011/04/29",
+        "2011/05/03", "2011/05/04", "2011/05/05", "2011/07/18", "2011/09/21",
+        "2011/09/23", "2011/10/10", "2011/11/03", "2011/11/23", "2011/12/23", "2011/12/31",
+
+        ## 2012 data is from http://www.tse.or.jp/english/about/calendar.html
+        "2012/01/01", "2012/01/02", "2012/01/03", "2012/01/09", "2012/02/11", "2012/03/20", "2012/04/29",
+        "2012/05/03", "2012/05/04", "2012/05/05", "2012/07/16", "2012/09/17",
+        "2012/09/22", "2012/10/08", "2012/11/03", "2012/11/23", "2012/12/23", "2012/12/24", "2012/12/31",
+
         ## Check holidays on Bloomberg with "CDR JN 2009"
 
         ## New Years Day for a few more years - having one day holiday in the
@@ -286,12 +321,12 @@
         ## they are calculated using the rule:
         ## holiday.nearest.weekday(holiday.NewYears(years))
         ## However, different exchanges have different days as New Years Day holiday
-        "2010/01/01", "2010/12/31", "2012/01/02", "2013/01/01", "2014/01/01"
+        "2013/01/01", "2014/01/01", "2015/01/01"
     )))
 
     ###########################################################################
     ##
-    ## JPNEX.halfday
+    ## JPNEX.halfday (not up to date)
     ##
     registerHolidays('JPNEX.halfday', dateParse(
     c(
@@ -305,7 +340,7 @@
 
     ###########################################################################
     ##
-    ## KOREX
+    ## KOREX (not up to date)
     ##
     ## Data cross checked against the Bloomberg "CDR SK 2004"
     ##
@@ -508,7 +543,7 @@
 
     ###########################################################################
     ##
-    ## NYSEC.halfday
+    ## NYSEC.halfday (not up to date)
     ##
     registerHolidays('NYSE.halfday', dateParse(
     c(
