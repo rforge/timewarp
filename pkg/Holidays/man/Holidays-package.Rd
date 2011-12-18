@@ -8,7 +8,9 @@
 \description{
 
   This package is a data-only package that registers holidays with the
-  TimeWarp package.
+  TimeWarp package.  The package has no visible functions or data; it
+  works by calling \code{\link[TimeWarp]{registerHolidays}()} from its
+  \code{.onLoad()} function.
 
 }
 \author{
