@@ -1,3 +1,5 @@
+> Sys.setlocale("LC_COLLATE", "C")
+[1] "C"
 > Sys.setlocale("LC_TIME", "C")
 [1] "C"
 > Sys.setenv(TZ='EST') # so that tests that print out time zone work everywhere

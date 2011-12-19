@@ -1,3 +1,7 @@
+> Sys.setlocale("LC_TIME", "C")
+[1] "C"
+> Sys.setlocale("LC_COLLATE", "C")
+[1] "C"
 > Sys.setenv(TZ='EST')
 > Sys.timezone()
 [1] "EST"

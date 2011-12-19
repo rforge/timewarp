@@ -1,4 +1,4 @@
-                CHANGES in TimeWarp version 1.0-13 (2011-12-10)
+                CHANGES in TimeWarp version 1.0-1 (2011-12-18)
 CHANGES
     o   Removed the default 'bizdays' for argument 'by' in
         dateWarp() - the argument 'by' must be specified if

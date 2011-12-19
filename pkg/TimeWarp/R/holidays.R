@@ -1,4 +1,4 @@
-.holidays <- list()
+.holidays <- new.env()
 
 holidays <- function(years, type, silent = FALSE)
 {
@@ -34,18 +34,12 @@ holidays <- function(years, type, silent = FALSE)
 }
 
 .registerHolidays <- function(type,dates){
-    locked <- environmentIsLocked(environment(registerHolidays))
-    if (locked)
-        unlockBinding('.holidays',environment(.registerHolidays))
     d <- unique(sort(dates))
-    .holidays[[type]] <<- data.frame(days=d,years=years(d))
-    if (locked)
-        lockBinding('.holidays',environment(.registerHolidays))
-    invisible(.holidays[[type]])
+    .holidays[[type]] <- data.frame(days=d,years=years(d))
 }
 
 registerHolidays <- function(type,dates){
-    if (type %in% names(.holidays)) warning(paste('Overwriting',type,'holidays.'))
+    if (type %in% ls(envir=.holidays)) warning(paste('Overwriting',type,'holidays.'))
 
     d <- NULL
     if (inherits(dates,'Date')) d <- dates
@@ -60,7 +54,7 @@ addToHolidays <- function(type,dates){
     if (inherits(dates,'Date')) d <- dates
     else if (is.character(dates)) d <- dateParse(dates)
 
-    if (!(type %in% names(.holidays)))
+    if (!(type %in% ls(envir=.holidays)))
         warning(paste('No',type,'holidays exist. Registering.'))
     else
         d <- unique(sort(c(.holidays[[type]]$days,d)))
@@ -69,21 +63,16 @@ addToHolidays <- function(type,dates){
 }
 
 unregisterHolidays <- function(type,dates){
-    if (!(type %in% names(.holidays))) {
+    if (!(type %in% ls(envir=.holidays))) {
         warning(paste('No',type,'holidays exist.'))
         return()
     }
-    locked <- environmentIsLocked(environment(registerHolidays))
-    if (locked)
-        unlockBinding('.holidays',environment(registerHolidays))
-    .holidays[[type]] <<- NULL
-    if (locked)
-        lockBinding('.holidays',environment(registerHolidays))
+    remove(list=type, envir=.holidays)
     invisible(NULL)
 }
 
 allHolidays <- function(){
-    sort(c(names(.holidays), "NONE"))
+    sort(c(ls(envir=.holidays), "NONE"))
 }
 
 isHoliday <- function(dates, type)
@@ -97,7 +86,7 @@ isHoliday <- function(dates, type)
     if (type == "NONE")
         return(rep(FALSE, length(dates)))
     else
-        if (!(type %in% names(.holidays)))
+        if (!(type %in% ls(envir=.holidays)))
             stop(paste('no', type, 'holidays exist.'))
 
     dates %in% .holidays[[type]]$days
