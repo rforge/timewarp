@@ -126,6 +126,15 @@ dateSeq.Date <- function(from = NULL, to = NULL, year = NULL, by = "days",
     if (!is.null(week.align) && (!is.numeric(week.align) || (week.align < 0 || week.align > 6)))
         stop("week.align must be between 0 and 6, where 0 is Sunday")
 
+    if (is.null(from))
+      stop("'from' must be specified")
+
+    if (!is.null(to) && from > to)
+    {
+        warning("'from' date is later in time than the 'to' date.")
+        return(emptyDate())
+    }
+
     if (align.by)
     {
         if (extend)
@@ -142,14 +151,9 @@ dateSeq.Date <- function(from = NULL, to = NULL, year = NULL, by = "days",
         }
     }
 
-    if (is.null(from))
-      stop("'from' must be specified")
-
+    ## Might have made from > to by the alignment -- don't warn about this
     if (!is.null(to) && from > to)
-    {
-        warning("'from' date is later in time than the 'to' date.")
         return(emptyDate())
-    }
 
     ### END of argument checking
 
