@@ -56,7 +56,7 @@ dateParse <- function(x, format=NULL, stop.on.error=TRUE, quick.try=TRUE,
     if (quick.try && length(x)>20) {
         # quickly test just the first few elements of x so that we
         # can stop or return NULL quickly if we can't convert
-        m <- match.call(expand=F)
+        m <- match.call(expand.dots=F)
         m$x <- x[1:min(5, length(x))]
         m$quick.try <- F
         quick.result <- eval(m, sys.parent())
