@@ -4,7 +4,10 @@ dateMatch <- function(x, table, how=c("NA", "before", "after", "nearest", "inter
 dateMatch.character <- function(x, table, how=c("NA", "before", "after", "nearest", "interp"), error.how=c("NA", "drop", "nearest"), nomatch=NA, offset=NULL,value=FALSE)
 {
     x <- NextMethod('dateMatch')
-    as.character(x)
+    if (value)
+        as.character(x)
+    else
+        x
 }
 
 dateMatch.POSIXct <- function(x, table, how=c("NA", "before", "after", "nearest", "interp"), error.how=c("NA", "drop", "nearest"), nomatch=NA, offset=NULL,value=FALSE)
@@ -13,10 +16,14 @@ dateMatch.POSIXct <- function(x, table, how=c("NA", "before", "after", "nearest"
     x <- NextMethod('dateMatch')
     # need to convert Date to character before converting back to POSIXct
     # see examples in tests/gotchas.Rt
-    x <- as.POSIXct(as.character(x))
-    if (!is.null(tz))
-        attr(x, 'tzone') <- tz
-    return(x)
+    if (value) {
+        x <- as.POSIXct(as.character(x))
+        if (!is.null(tz))
+            attr(x, 'tzone') <- tz
+        return(x)
+    } else {
+        return(x)
+    }
 }
 
 dateMatch.POSIXlt <- function(x, table, how=c("NA", "before", "after", "nearest", "interp"), error.how=c("NA", "drop", "nearest"), nomatch=NA, offset=NULL,value=FALSE)
@@ -25,10 +32,14 @@ dateMatch.POSIXlt <- function(x, table, how=c("NA", "before", "after", "nearest"
     x <- NextMethod('dateMatch')
     # need to convert Date to character before converting back to POSIXlt
     # see examples in tests/gotchas.Rt
-    x <- as.POSIXlt(as.character(x))
-    if (!is.null(tz))
-        attr(x, 'tzone') <- tz
-    return(x)
+    if (value) {
+        x <- as.POSIXlt(as.character(x))
+        if (!is.null(tz))
+            attr(x, 'tzone') <- tz
+        return(x)
+    } else {
+        return(x)
+    }
 }
 
 dateMatch.Date <- function(x, table, how=c("NA", "before", "after", "nearest", "interp"), error.how=c("NA", "drop", "nearest"), nomatch=NA, offset=NULL,value=FALSE)
