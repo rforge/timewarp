@@ -1,3 +1,13 @@
+                CHANGES in TimeWarp version 1.0-4 (2012-01-27)
+CHANGES
+    o   make the error.how argument in dateMatch() accept the
+        value 'stop', which causes dateMatch() to stop with
+        an error if no matching date is found.
+
+    o   allow the how argument in dateMatch() to take a two-part
+        value, e.g., how='nearest.stop' is equivalent to
+	how='nearest' and error.how='stop'.
+
                 CHANGES in TimeWarp version 1.0-3 (2011-12-21)
 CHANGES
     o   make dateSeq() return zero length sequence when given
