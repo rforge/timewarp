@@ -1,3 +1,7 @@
+                CHANGES in TimeWarp version 1.0-5 (2012-03-10)
+CHANGES
+    o   make dateParse() able to handle dates like '2012.03.10'
+
                 CHANGES in TimeWarp version 1.0-4 (2012-01-27)
 CHANGES
     o   make the error.how argument in dateMatch() accept the
