@@ -1,3 +1,7 @@
+                CHANGES in TimeWarp version 1.0-6 (2012-03-30)
+CHANGES
+    o   make dateFormat() able to use formats '%Q' and '%C'
+
                 CHANGES in TimeWarp version 1.0-5 (2012-03-10)
 CHANGES
     o   make dateParse() able to handle dates like '2012.03.10'
