@@ -36,7 +36,7 @@ default format and then calling \code{format()}.
 Additional format specifications are also provided:
 \itemize{
   \item{'\%Q' for quarter, as 'Q1', etc (the value returned by \code{quarters()}}
-  \item{'\%C' for century, always 2 digits (e.g., '13' for 2013)}
+  \item{'\%C' for century, always 2 digits (e.g., '20' for 2013)}
   }
 }
 
