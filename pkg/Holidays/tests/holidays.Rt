@@ -3,7 +3,7 @@
  [1] "AUSEX"         "GBREX"         "HKGEX"         "JPNEX"        
  [5] "JPNEX.halfday" "KOREX"         "NEWYEAR"       "NONE"         
  [9] "NYSE"          "NYSE.Closings" "NYSE.halfday"  "NYSEC"        
-[13] "NewYears"     
+[13] "NYSELong"      "NYSEPre70s"    "NewYears"     
 > holidays(2001, "NYSE")
 [1] "2001-01-01" "2001-01-15" "2001-02-19" "2001-04-13" "2001-05-28"
 [6] "2001-07-04" "2001-09-03" "2001-11-22" "2001-12-25"
