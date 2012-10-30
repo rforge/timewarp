@@ -671,7 +671,7 @@
          "2001/09/14",  # Attack on World Trade Center
          "2004/06/11",  # funeral of former President Ronald Reagan
          "2007/01/02",  # National Day of mouring for Gerald Ford
-         "2012/10/29"   # Hurricane Sandy
+         "2012/10/29","2012/10/30"   # Hurricane Sandy
 
     )))
 
