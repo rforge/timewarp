@@ -75,7 +75,7 @@ dateFormat <- function(date, format = NULL)
     if (all(regexpr('%', format)<=0))
         return(rep(format, len=length(date)))
     if (.Platform$OS.type=='windows' && any((i <- regexpr('%+y', format))>=1) && any(attr(i, 'match.length')%%2==0)
-        && year(min(date)) < 1900) {
+        && as.numeric(format(min(date), '%Y')) < 1900) {
         # '%y' can be buggy on windows for dates < 1900
         # e.g., format(as.Date('1899-01-01'), '%y') returns "0/" on a Win XP 64 bit OS in 2012
         if (length(format) < length(date)) {
@@ -85,7 +85,7 @@ dateFormat <- function(date, format = NULL)
         j <- (attr(i, 'match.length')%%2)==0
         if (any(attr(i, 'match.length')[j]>2))
             i[j] <- i[j] + attr(i, 'match.length')[j]-2
-        substring(format[j], i[j], i[j]+2) <- sprintf('%02g', year(date) %% 100)
+        substring(format[j], i[j], i[j]+2) <- sprintf('%02g', as.numeric(format(date, '%Y')) %% 100)
     }
     if (all(regexpr('%', format)<=0))
         return(rep(format, len=length(date)))
@@ -97,7 +97,7 @@ dateFormat <- function(date, format = NULL)
         j <- (attr(i, 'match.length')%%2)==0
         if (any(attr(i, 'match.length')[j]>2))
             i[j] <- i[j] + attr(i, 'match.length')[j]-2
-        substring(format[j], i[j], i[j]+2) <- sprintf('%02g', year(date) %/% 100)
+        substring(format[j], i[j], i[j]+2) <- sprintf('%02g', as.numeric(format(date, '%Y')) %/% 100)
     }
     if (all(regexpr('%', format)<=0))
         return(rep(format, len=length(date)))
