@@ -136,19 +136,23 @@ dateMatch.Date <- function(x, table, how=c("NA", "before", "after", "nearest", "
                 y <- findInterval(x_idxNA,table)
 
                 # Not efficient! But what's the alternative look like?
-                for (i in 1:length(y)){
-                    if (y[i] == 0){
-                        y[i] <- 1
-                    } else if (y[i] == N){
-                        d2 <- table[N] - x_idxNA[i]
-                        d1 <- x_idxNA[i] - table[N-1]
-                        if (d2 < d1) y[i] <- N
-                        else y[i] <- N-1
-                    } else {
-                        d2 <- table[y[i]+1] - x_idxNA[i]
-                        d1 <- x_idxNA[i] - table[y[i]]
-                        if (d2 < d1) y[i] <- y[i]+1
-                        else y[i] <- y[i]
+                if (N == 1) {
+                    y[] <- 1
+                } else {
+                    for (i in 1:length(y)){
+                        if (y[i] == 0){
+                            y[i] <- 1
+                        } else if (y[i] == N){
+                            d2 <- table[N] - x_idxNA[i]
+                            d1 <- x_idxNA[i] - table[N-1]
+                            if (d2 < d1) y[i] <- N
+                            else y[i] <- N-1
+                        } else {
+                            d2 <- table[y[i]+1] - x_idxNA[i]
+                            d1 <- x_idxNA[i] - table[y[i]]
+                            if (d2 < d1) y[i] <- y[i]+1
+                            else y[i] <- y[i]
+                        }
                     }
                 }
                 idx[idxNA] <- y
@@ -159,22 +163,26 @@ dateMatch.Date <- function(x, table, how=c("NA", "before", "after", "nearest", "
                 y <- findInterval(x_idxNA,table)
 
                 # Not efficient! But what's the alternative look like?
-                for (i in 1:length(y)){
-                    if (y[i] == 0){
-                        next
-                    } else if (y[i] == N){
-                        # -1 signifies an upper bound error condition
-                        if (x_idxNA[i] > table[N]){
-                            y[i] <- -1
+                if (N == 1) {
+                    y[] <- 1
+                } else {
+                    for (i in 1:length(y)){
+                        if (y[i] == 0){
+                            next
+                        } else if (y[i] == N){
+                            # -1 signifies an upper bound error condition
+                            if (x_idxNA[i] > table[N]){
+                                y[i] <- -1
+                            } else {
+                                d2 <- table[N] - table[N-1]
+                                d1 <- x_idxNA[i] - table[N-1]
+                                y[i] <- y[i] + unclass(d1)/unclass(d2)
+                            }
                         } else {
-                            d2 <- table[N] - table[N-1]
-                            d1 <- x_idxNA[i] - table[N-1]
+                            d2 <- table[y[i]+1] - table[y[i]]
+                            d1 <- x_idxNA[i] - table[y[i]]
                             y[i] <- y[i] + unclass(d1)/unclass(d2)
                         }
-                    } else {
-                        d2 <- table[y[i]+1] - table[y[i]]
-                        d1 <- x_idxNA[i] - table[y[i]]
-                        y[i] <- y[i] + unclass(d1)/unclass(d2)
                     }
                 }
 
