@@ -145,3 +145,6 @@ Error in dateMatch.default(c("2001/01/10", "2001/03/12"), dateSeq("2001/01/01", 
 Error in dateMatch.default(c("2000/01/01", "2001/01/10", "2001/03/12"),  : 
   no match found for 1 dates, e.g.: 2000-01-01
 >
+> dateMatch(structure(c(13283, 13466, 13559, 13654, 13787), class = "Date"), as.Date('2007-05-21'), how = "nearest", value = T)
+[1] "2007-05-21" "2007-05-21" "2007-05-21" "2007-05-21" "2007-05-21"
+> 
