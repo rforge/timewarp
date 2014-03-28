@@ -1,3 +1,4 @@
+- add tests for parsing dateWarp() list components like 'N bizdays@HOLIDAYS'
 - make TimeWarp work with date/times:
     make the base function for dateAlign/dateShift use POSIXlt (it already does this inside the function, after converting to Date)
 
@@ -10,8 +11,6 @@
   the function arguments as defaults -- values should not
   propogate from one shift/align to the next.  E.g., with this
   spec:
-    timeWarp(x, holidays="NONE",
-             list(shift=list("2 bizdays", holidays="JPNEX"),
-                  shift=list("2 bizdays")))
+    dateWarp('2014-05-01', holidays="NONE", list(shift=list("2 bizdays", holidays="JPNEX"), shift=list("2 bizdays")))
   the second shift should use holidays="NONE", not holidays="JPNEX".
 

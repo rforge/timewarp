@@ -1,3 +1,8 @@
+                CHANGES in TimeWarp version 1.0-8 (2014-03-27)
+CHANGES
+    o   allow more flexibility in specification arguments in dateWarp()
+    o   allow use of 'to' and 'len' args in dateSeq()
+
                 CHANGES in TimeWarp version 1.0-7 (2013-03-20)
 CHANGES
     o   fix partial matching in data frame in holidays()
