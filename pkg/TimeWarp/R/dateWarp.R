@@ -1,21 +1,23 @@
 dateWarp <- function(date, spec, holidays = NULL, by = NULL,
-                     direction = 1, duplicates.keep = TRUE)
+                     direction = 1, duplicates.keep = TRUE, optimize.dups = TRUE) {
     UseMethod("dateWarp")
+}
 
 dateWarp.character <- function(date, spec, holidays = NULL, by = NULL,
-                     direction = 1, duplicates.keep = TRUE)
+                     direction = 1, duplicates.keep = TRUE, optimize.dups = TRUE)
 {
     x <- NextMethod('dateWarp')
     as.character(x)
 }
 
 dateWarp.POSIXct <- function(date, spec, holidays = NULL, by = NULL,
-                     direction = 1, duplicates.keep = TRUE)
+                     direction = 1, duplicates.keep = TRUE, optimize.dups = TRUE)
 {
     tz <- attr(date, 'tzone')
     x <- NextMethod('dateWarp')
-    # need to convert Date to character before converting back to POSIXct
-    # see examples in tests/gotchas.Rt
+    # Need to convert Date to character before converting back to POSIXct
+    # see examples in tests/pitfalls.Rt
+    # TODO: can we do better with this?
     x <- as.POSIXct(as.character(x))
     if (!is.null(tz))
         attr(x, 'tzone') <- tz
@@ -23,12 +25,12 @@ dateWarp.POSIXct <- function(date, spec, holidays = NULL, by = NULL,
 }
 
 dateWarp.POSIXlt <- function(date, spec, holidays = NULL, by = NULL,
-                     direction = 1, duplicates.keep = TRUE)
+                     direction = 1, duplicates.keep = TRUE, optimize.dups = TRUE)
 {
     tz <- attr(date, 'tzone')
     x <- NextMethod('dateWarp')
     # need to convert Date to character before converting back to POSIXlt
-    # see examples in tests/gotchas.Rt
+    # see examples in tests/pitfalls.Rt
     x <- as.POSIXlt(as.character(x))
     if (!is.null(tz))
         attr(x, 'tzone') <- tz
@@ -36,8 +38,9 @@ dateWarp.POSIXlt <- function(date, spec, holidays = NULL, by = NULL,
 }
 
 dateWarp.Date <- function(date, spec, holidays = NULL, by = NULL,
-                     direction = 1, duplicates.keep = TRUE)
+                     direction = 1, duplicates.keep = TRUE, optimize.dups = TRUE)
 {
+    # This is the workhorse method -- this handles all type of input
     ### BEGIN ARGUMENT PROCESSING ###
 
     if (!hasArg(date))
@@ -45,6 +48,17 @@ dateWarp.Date <- function(date, spec, holidays = NULL, by = NULL,
 
     if (!hasArg(spec))
         stop("'spec' argument missing.")
+
+    if (optimize.dups && duplicates.keep && length(date) > 50
+        && length(xu <- unique(date)) < length(date)/2) {
+        # Lots of duplicates -- do the slow date computations only for the unique values.
+        # Don't need to worry too much about the test for whether optimization should
+        # be used -- with daily dates usually there are either lots of duplicates
+        # or no duplicates.
+        yu <- dateWarp.Date(xu, spec=spec, holidays=holidays, by=by, direction=direction, duplicates.keep=duplicates.keep, optimize.dups=FALSE)
+        i <- match(date, xu)
+        return(yu[i])
+    }
 
     if (!inherits(date, "Date")) {
         date <- dateParse(date)
@@ -164,13 +178,13 @@ dateWarp.Date <- function(date, spec, holidays = NULL, by = NULL,
                     for (i in seq_along(op)) {
                         if (op[i] == 0)
                             tmp <- dateAlign(date, by = byUse, direction = direction,
-                                             holidays = holidaysUse, silent = TRUE)
+                                             holidays = holidaysUse, silent = TRUE, optimize.dups = optimize.dups)
                         else if (op[i] < 0)
                             tmp <- dateShift(date, by = byUse, k.by = -op[i], direction = -direction,
-                                             holidays = holidaysUse, silent = TRUE)
+                                             holidays = holidaysUse, silent = TRUE, optimize.dups = optimize.dups)
                         else
                             tmp <- dateShift(date, by = byUse, k.by = op[i], direction = direction,
-                                             holidays = holidaysUse, silent = TRUE)
+                                             holidays = holidaysUse, silent = TRUE, optimize.dups = optimize.dups)
 
                         res <- c(res, tmp)
                     }
@@ -221,7 +235,7 @@ dateWarp.Date <- function(date, spec, holidays = NULL, by = NULL,
                     if (all(is.na(pmatch(names(op), "holidays"))))
                         op$holidays <- holidays
 
-                    date <- do.call("dateAlign", c(list(x = date, silent = TRUE), op))
+                    date <- do.call("dateAlign", c(list(x = date, silent = TRUE, optimize.dups = optimize.dups), op))
                 } else if (name == "shift") {
                     ## TODO: need tests for parsing 'N bizdays@HOLIDAYS' here
                     ## Check if unnamed item looks like '3 bizdays' or '-3 bizdays@NYSEC'

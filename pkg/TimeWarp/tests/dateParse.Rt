@@ -82,3 +82,13 @@ Error in dateParse("2001/22/2") :
 [1] "2001-02-14"
 > dateParse("2-14-2002")
 [1] "2002-02-14"
+> # Check that the duplicated-optimized computations for each class
+> set.seed(1)
+> xc <- sample(dateSeq("2010/01/01", "2010/04/01"), 1000, replace=TRUE)
+> xd <- as.Date(xc)
+> # get results different ways
+> xrc <- dateParse(xc, optimize.dups=FALSE)
+> xrco <- dateParse(xc)
+> identical(xrc, xrco)
+[1] TRUE
+> 

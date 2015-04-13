@@ -1,3 +1,11 @@
+                CHANGES in TimeWarp version 1.0-13 (2015-04-11)
+CHANGES
+    o   add optimization to dateWarp(), dateShift(), dateAlign(),
+        dateParse(), dateFormat(), dateMatch() so that when there
+	are many duplicates, we only do the slow date computation
+	once for each unique value.  This provides huge speed ups
+	for very long vectors with dates duplicated many times.
+
                 CHANGES in TimeWarp version 1.0-9 (2014-03-27)
 CHANGES
     o   change default for ymd8 arg on dateParse() to TRUE
