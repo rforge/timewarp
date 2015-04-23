@@ -10,6 +10,30 @@ dateMatch.character <- function(x, table, how=c("NA", "before", "after", "neares
         x
 }
 
+dateMatch.factor <- function(x, table, how=c("NA", "before", "after", "nearest", "interp"), error.how=c("NA", "drop", "nearest", "stop"), nomatch=NA, offset=NULL,value=FALSE, optimize.dups=TRUE)
+{
+    lev <- levels(x)
+    y <- dateMatch.Date(dateParse(lev), table=table, how=how, error.how=error.how,
+                        nomatch=nomatch, offset=offset, value=value, optimize.dups=FALSE)
+    if (value) {
+        new.lev <- as.character(y)
+        if (!any(duplicated(new.lev)) && length(new.lev)==length(lev) && !any(is.na(new.lev) & !is.na(lev))) {
+            levels(x) <- new.lev
+        } else {
+            # Have duplicates new.lev; must recode factor to a smaller set of levels.
+            new.lev2 <- unique(new.lev)
+            new.lev2 <- sort(new.lev2[!is.na(new.lev2)])
+            recode <- match(new.lev, new.lev2)
+            x <- structure(recode[as.integer(x)], levels=new.lev2, class='factor')
+        }
+        return(x)
+    } else {
+        return(y[as.integer(x)])
+    }
+}
+
+
+
 dateMatch.POSIXct <- function(x, table, how=c("NA", "before", "after", "nearest", "interp"), error.how=c("NA", "drop", "nearest", "stop"), nomatch=NA, offset=NULL,value=FALSE, optimize.dups=TRUE)
 {
     tz <- attr(date, 'tzone')

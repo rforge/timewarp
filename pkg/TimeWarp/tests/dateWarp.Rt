@@ -868,17 +868,21 @@ Time difference of 32078 days
 > set.seed(1)
 > xc <- sample(dateSeq("2010/01/01", "2010/04/01"), 1000, replace=TRUE)
 > xd <- as.Date(xc)
+> xf <- factor(xc)
 > xct <- as.POSIXct(xc)
 > xlt <- as.POSIXlt(xc)
 > # get results different ways & check they give the same result
 > xrc <- dateWarp(xc, '+1 bizdays@NYSEC', optimize.dups=FALSE)
 > xrco <- dateWarp(xc, '+1 bizdays@NYSEC')
-> identical(xrc, xrco)
-[1] TRUE
+> xrfo <- dateWarp(xf, '+1 bizdays@NYSEC')
 > xrcto <- dateWarp(xct, '+1 bizdays@NYSEC')
 > xrlto <- dateWarp(xlt, '+1 bizdays@NYSEC')
 > xrdo <- dateWarp(xd, '+1 bizdays@NYSEC')
+> identical(xrc, xrco)
+[1] TRUE
 > identical(as.Date(xrc), xrdo)
+[1] TRUE
+> identical(factor(xrc), xrfo)
 [1] TRUE
 > identical(as.POSIXct(xrc), xrcto)
 [1] TRUE

@@ -1,3 +1,8 @@
+                CHANGES in TimeWarp version 1.0-14 (2015-04-21)
+CHANGES
+    o   add factor methods to dateWarp(), dateShift(), dateAlign(),
+        dateMatch() that return a factor instead of a Date object.
+
                 CHANGES in TimeWarp version 1.0-13 (2015-04-11)
 CHANGES
     o   add optimization to dateWarp(), dateShift(), dateAlign(),

@@ -483,16 +483,20 @@ Time difference of 15776 days
 > set.seed(1)
 > xc <- sample(dateSeq("2010/01/01", "2010/04/01"), 1000, replace=TRUE)
 > xd <- as.Date(xc)
+> xf <- factor(xc)
 > xct <- as.POSIXct(xc)
 > xlt <- as.POSIXlt(xc)
 > # get results different ways
 > xrc <- dateShift(xc, k.by=1, by='bizdays@NYSEC', optimize.dups=FALSE)
 > xrco <- dateShift(xc, k.by=1, by='bizdays@NYSEC')
-> identical(xrc, xrco)
-[1] TRUE
+> xrfo <- dateShift(xf, k.by=1, by='bizdays@NYSEC')
 > xrcto <- dateShift(xct, k.by=1, by='bizdays@NYSEC')
 > xrlto <- dateShift(xlt, k.by=1, by='bizdays@NYSEC')
 > xrdo <- dateShift(xd, k.by=1, by='bizdays@NYSEC')
+> identical(xrc, xrco)
+[1] TRUE
+> identical(factor(xrc), xrfo)
+[1] TRUE
 > identical(as.Date(xrc), xrdo)
 [1] TRUE
 > identical(as.POSIXct(xrc), xrcto)

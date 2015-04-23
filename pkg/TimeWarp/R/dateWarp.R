@@ -10,6 +10,25 @@ dateWarp.character <- function(date, spec, holidays = NULL, by = NULL,
     as.character(x)
 }
 
+dateWarp.factor <- function(date, spec, holidays = NULL, by = NULL,
+                     direction = 1, duplicates.keep = TRUE, optimize.dups = TRUE)
+{
+    lev <- levels(date)
+    new.lev <- dateWarp.Date(dateParse(lev), spec=spec, holidays=holidays, by=by,
+                             direction=direction, duplicates.keep=duplicates.keep, optimize.dups=FALSE)
+    new.lev <- as.character(new.lev)
+    if (!any(duplicated(new.lev)) && length(new.lev)==length(lev) && !any(is.na(new.lev) & !is.na(lev))) {
+        levels(date) <- new.lev
+    } else {
+        # Have duplicates new.lev; must recode factor to a smaller set of levels.
+        new.lev2 <- unique(new.lev)
+        new.lev2 <- sort(new.lev2[!is.na(new.lev2)])
+        recode <- match(new.lev, new.lev2)
+        date <- structure(recode[as.integer(date)], levels=new.lev2, class='factor')
+    }
+    date
+}
+
 dateWarp.POSIXct <- function(date, spec, holidays = NULL, by = NULL,
                      direction = 1, duplicates.keep = TRUE, optimize.dups = TRUE)
 {

@@ -155,17 +155,21 @@ Error in dateMatch.default(c("2000/01/01", "2001/01/10", "2001/03/12"),  :
 > xc <- sample(dateSeq("2010/01/01", "2010/04/01"), 1000, replace=TRUE)
 > xt <- dateSeq("2010/01/01", "2010/04/01", by='bizdays@NYSEC')
 > xd <- as.Date(xc)
+> xf <- factor(xc)
 > xct <- as.POSIXct(xc)
 > xlt <- as.POSIXlt(xc)
 > # get results different ways & check they give the same result
 > xrc <- dateMatch(xc, xt, how='before.NA', optimize.dups=FALSE, value=TRUE)
 > xrco <- dateMatch(xc, xt, how='before.NA', value=TRUE)
-> identical(xrc, xrco)
-[1] TRUE
+> xrfo <- dateMatch(xf, xt, how='before.NA', value=TRUE)
 > xrcto <- dateMatch(xct, xt, how='before.NA', value=TRUE)
 > xrlto <- dateMatch(xlt, xt, how='before.NA', value=TRUE)
 > xrdo <- dateMatch(xd, xt, how='before.NA', value=TRUE)
+> identical(xrc, xrco)
+[1] TRUE
 > identical(as.Date(xrc), xrdo)
+[1] TRUE
+> identical(factor(xrc), xrfo)
 [1] TRUE
 > identical(as.POSIXct(xrc), xrcto)
 [1] TRUE

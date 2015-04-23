@@ -10,6 +10,24 @@ dateShift.character <- function(x, by = 'days', k.by = 1, direction = 1, holiday
     as.character(x)
 }
 
+dateShift.factor <- function(x, by = 'days', k.by = 1, direction = 1, holidays = NULL, silent = FALSE, optimize.dups=TRUE)
+{
+    lev <- levels(x)
+    new.lev <- dateShift.Date(dateParse(lev), by=by, k.by=k.by, direction=direction,
+                              holidays=holidays, silent=silent, optimize.dups=FALSE)
+    new.lev <- as.character(new.lev)
+    if (!any(duplicated(new.lev)) && length(new.lev)==length(lev) && !any(is.na(new.lev) & !is.na(lev))) {
+        levels(x) <- new.lev
+    } else {
+        # Have duplicates new.lev; must recode factor to a smaller set of levels.
+        new.lev2 <- unique(new.lev)
+        new.lev2 <- sort(new.lev2[!is.na(new.lev2)])
+        recode <- match(new.lev, new.lev2)
+        x <- structure(recode[as.integer(x)], levels=new.lev2, class='factor')
+    }
+    x
+}
+
 dateShift.POSIXct <- function(x, by = 'days', k.by = 1, direction = 1, holidays = NULL, silent = FALSE, optimize.dups=TRUE)
 {
     tz <- attr(date, 'tzone')

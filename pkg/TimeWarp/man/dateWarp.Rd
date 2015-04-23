@@ -5,7 +5,7 @@
 \description{
   Perform multiple shifts and alignments on \code{\link{Date}} vectors.
   \code{dateWarp()} is a generic, with
-  methods for \code{character}, \code{Date}, \code{POSIXct}, and \code{POSIXlt}.
+  methods for \code{character}, \code{factor}, \code{Date}, \code{POSIXct}, and \code{POSIXlt}.
 }
 \usage{
 dateWarp(date, spec, holidays = NULL, by = NULL, direction = 1,

@@ -1,8 +1,8 @@
 Package: TimeWarp
 Type: Package
 Title: Date Calculations and Manipulation
-Version: 1.0.13
-Date: 2015-04-11
+Version: 1.0.14
+Date: 2015-04-21
 Author: Tony Plate, Jeffrey Horner, Lars Hansen
 Maintainer: Tony Plate <tplate@acm.org>
 Depends: R (>= 2.6)
