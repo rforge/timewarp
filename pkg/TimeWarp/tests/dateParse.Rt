@@ -28,10 +28,10 @@ NULL
 [1] "2001-01-01"
 > dateParse(factor(c("2001/01/01","2001/01/03","2001/01/01","2001/01/03")))
 [1] "2001-01-01" "2001-01-03" "2001-01-01" "2001-01-03"
-> dateParse(character(0))
-character(0)
-> dateParse(factor(character(0)))
-character(0)
+> length(dateParse(character(0)))==0
+[1] TRUE
+> length(dateParse(factor(character(0))))==0
+[1] TRUE
 > #dateParse(c("06/20/1962","10/30/1962","NA"),zone="MDT",out.format=options("time.format.full24")[[1]])
 > #[1] 1962-06-20 00:00:00 MDT 1962-10-30 00:00:00 MDT NA                     
 > #> dateParse(c("06/20/1962","10/30/1962","NA"),out.format=options("time.format.full24")[[1]])

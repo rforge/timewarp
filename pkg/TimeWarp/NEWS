@@ -1,3 +1,8 @@
+                CHANGES in TimeWarp version 1.0-15 (2016-04-24)
+CHANGES
+    o   change test output to be compatible with devel version of
+    	R which no longer prints 0-length dates as "character(0)"
+
                 CHANGES in TimeWarp version 1.0-14 (2015-04-21)
 CHANGES
     o   add factor methods to dateWarp(), dateShift(), dateAlign(),
