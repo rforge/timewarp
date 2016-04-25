@@ -1,3 +1,4 @@
+importFrom("methods", "hasArg", "is")
 export(addToHolidays)
 export(allHolidays)
 export(dateFormat)

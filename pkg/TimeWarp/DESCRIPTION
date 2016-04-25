@@ -7,6 +7,7 @@ Author: Tony Plate, Jeffrey Horner, Lars Hansen
 Maintainer: Tony Plate <tplate@acm.org>
 Depends: R (>= 2.6)
 Suggests: scriptests, Holidays
+Imports: methods
 Description: Date sequence, relative date calculations, and date manipulation with business days
   and holidays.  Works with Date and POSIXt classes.
 License: GPL
