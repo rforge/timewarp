@@ -1,3 +1,9 @@
+                CHANGES in TimeWarp version 1.0-17 (2018-10-07)
+CHANGES
+    o   add functions for working with weekdays: isWeekday(), nearestWeekday() and filterWeekdays()
+    o   make dateDow() and years() work much more efficiently on long date vectors with a lot duplicates
+    o   other very minor changes for CRAN compatibility and test correctness with new output formatting for zero length date vectors
+
                 CHANGES in TimeWarp version 1.0-15 (2016-07-20)
 CHANGES
     o   change test output to be compatible with devel version of
