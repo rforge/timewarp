@@ -1,8 +1,8 @@
 Package: Holidays
 Type: Package
 Title: Holiday and Half-Day Data, for Use with the 'TimeWarp' Package
-Version: 1.0-7
-Date: 2016-07-19
+Version: 1.0-8
+Date: 2018-10-07
 Author: Jeffery Horner, Lars Hansen, Tony Plate
 Maintainer: Tony Plate <tplate@acm.org>
 Depends: R (>= 2.6), TimeWarp

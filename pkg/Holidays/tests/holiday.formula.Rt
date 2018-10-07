@@ -1,0 +1,23 @@
+> invisible(Sys.setlocale("LC_COLLATE", "C"))
+> library(Holidays)
+> holiday.US_NEWYEAR_BOTH(1999)
+[1] "1999-01-01" "1999-12-31"
+> holiday.US_NEWYEAR_BOTH(2000)
+Date of length 0
+> holiday.US_NEWYEAR_BOTH(2001)
+[1] "2001-01-01"
+> holiday.US_NEWYEAR_BOTH(1998)
+[1] "1998-01-01"
+> holiday.US_NEWYEAR_BOTH(1998:2001)
+[1] "1998-01-01" "1999-01-01" "1999-12-31" "2001-01-01"
+> holiday.US_NEWYEAR_BOTH(c(1998,2000))
+[1] "1998-01-01"
+> holiday.US_NEWYEAR_BOTH(c(1998,2001))
+[1] "1998-01-01" "2001-01-01"
+> holiday.US_NEWYEAR_BOTH(c(1999,2001))
+[1] "1999-01-01" "1999-12-31" "2001-01-01"
+> 
+> # check formula for US Federal holidays against list of holidays 2000-2020
+> all.equal(format(holidays(2000:2020, 'USFed1971-2020')), format(holiday.US_FED(2000:2020)))
+[1] TRUE
+>

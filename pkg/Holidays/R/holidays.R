@@ -416,9 +416,9 @@
 
     ###########################################################################
     ##
-    ## JPNEX.halfday (not up to date)
+    ## JPNEX.halfdays (not up to date)
     ##
-    registerHolidays('JPNEX.halfday', dateParse(
+    registerHolidays('JPNEX.Halfdays', dateParse(
     c(
          "2003/01/06", "2003/12/30",
          "2004/01/05", "2004/12/30",
@@ -518,7 +518,7 @@
     ## the year on which there are no prices for international stocks.
     ## Note that this doesn't seem to be the holiday rule for GBR, at least: they
     ## have 01/03 as New Year's day for 2005 (2005/01/01 is a Saturday)
-    ## Neither is holiday rule for NYSE: they don't have any day off
+    ## Neither is it the holiday rule for NYSE: they don't have any day off
     ## for 2005/01/01.
     ##
     ##
@@ -691,8 +691,8 @@
         "1978/09/04", "1978/11/23", "1978/12/25", "1979/01/01", "1979/02/19", "1979/04/13",
         "1979/05/28", "1979/07/04", "1979/09/03", "1979/11/22", "1979/12/25")))
 
-    registerHolidays('NYSE', dateParse(
-    c('1970/01/01','1970/02/23','1970/03/27','1970/07/03','1970/09/07','1970/11/26',
+    registerHolidays('NYSE1970-1999', dateParse(
+      c('1970/01/01','1970/02/23','1970/03/27','1970/07/03','1970/09/07','1970/11/26',
         '1970/12/25','1971/01/01','1971/02/15','1971/04/09','1971/05/31','1971/07/05',
         '1971/09/06','1971/11/25','1971/12/24','1972/02/21','1972/03/31','1972/05/29',
         '1972/07/04','1972/09/04','1972/11/07','1972/11/23','1972/12/25','1973/01/01',
@@ -732,7 +732,11 @@
         '1997/05/26','1997/07/04','1997/09/01','1997/11/27','1997/12/25','1998/01/01',
         '1998/01/19','1998/02/16','1998/04/10','1998/05/25','1998/07/03','1998/09/07',
         '1998/11/26','1998/12/25','1999/01/01','1999/01/18','1999/02/15','1999/04/02',
-        '1999/05/31','1999/07/05','1999/09/06','1999/11/25','1999/12/24','2000/01/17',
+        '1999/05/31','1999/07/05','1999/09/06','1999/11/25','1999/12/24')))
+
+    ## The formulas work fine for 2000+, keep these here for testing
+    registerHolidays('NYSE2000-2020', dateParse(
+      c('2000/01/17',
         '2000/02/21','2000/04/21','2000/05/29','2000/07/04','2000/09/04','2000/11/23',
         '2000/12/25','2001/01/01','2001/01/15','2001/02/19','2001/04/13','2001/05/28',
         '2001/07/04','2001/09/03','2001/11/22','2001/12/25','2002/01/01','2002/01/21',
@@ -764,7 +768,7 @@
         '2019/01/21','2019/02/18','2019/04/19','2019/05/27','2019/07/04','2019/09/02',
         '2019/11/28','2019/12/25','2020/01/01','2020/01/20','2020/02/17','2020/04/10',
         '2020/05/25','2020/07/03','2020/09/07','2020/11/26','2020/12/25'
-    )))
+        )))
 
     ###########################################################################
     ##
@@ -794,22 +798,32 @@
     ## Combine holidays and historical closings (e.g., funeral of Richard Nixon,
     ## World Trade Center attack).
     ##
-    registerHolidays("NYSEC", c(holidays(1980:2020, "NYSE"),
-                                holidays(1980:2020, "NYSE.Closings",
+    US_LastYear <- 2050
+    registerHolidays("NYSE", c(holidays(1980:1999, "NYSE1970-1999"),
+                               holiday.US_NYSE(2000:US_LastYear)))
+
+    registerHolidays("NYSEC", c(holidays(1980:1999, "NYSE1970-1999"),
+                                holiday.US_NYSE(2000:US_LastYear),
+                                holidays(1980:US_LastYear, "NYSE.Closings",
                                          silent = TRUE)))
-    registerHolidays("NYSELong", c(holidays(1900:1969, "NYSEPre70s"),
-                                   holidays(1970:2020, "NYSE"),
-                                   holidays(1970:2020, "NYSE.Closings",
-                                         silent = TRUE)))
+    registerHolidays("NYSEC.Long", c(holidays(1900:1969, "NYSEPre70s"),
+                                   holidays(1970:1999, "NYSE1970-1999"),
+                                   holiday.US_NYSE(2000:US_LastYear),
+                                   holidays(1970:US_LastYear, "NYSE.Closings",
+                                            silent = TRUE)))
 
     ###########################################################################
     ##
-    ## NYSEC.halfday (not up to date)
+    ## NYSEC.Halfdays (by formula)
     ##
-    registerHolidays('NYSE.halfday', dateParse(
-    c(
-         "2003/07/03", "2003/11/28", "2003/12/24", "2003/12/26"
-    )))
+    ## Scanning to a comprehensive-looking list of NYSE special closing on
+    ## http://s3.amazonaws.com/armstrongeconomics-wp/2013/07/NYSE-Closings.pdf,
+    ## it looks like, since 1995, NYSE closes early on these days if they are a weekday:
+    ##   July 3rd (since 1995)
+    ##   Dec 24th (since 1970, but don't see any between 1976 and 1990)
+    ##   Day after thanksgiving (since 1993)
+    ##
+    registerHolidays('NYSE.Halfdays', holiday.US_HALFDAY(2000:US_LastYear))
 
     ###########################################################################
     ##
@@ -831,7 +845,7 @@
     ## Labor Day (first Monday in September)
     ## Columbus Day (traditional - October 12)
     ##              (official - second Monday in October)
-    ## Veterans' Day (traditional - November 11)
+    ## Veterans' Day (traditional - November 11) -- For US Fed seems to be actuall closest weekday is official
     ##               (official - second Monday in November)
     ## Thanksgiving Day (fourth Thursday in November)
     ## Christmas Day (December 25)
@@ -860,7 +874,7 @@
     ## 2nd monday in November
     ## dateAlign(dateSeq(dateParse('1990-11-01'), len=5, by='years', align.by=F), week.align=1, dir=1, by='weeks')+7
     ##
-    registerHolidays('USFed', dateParse(
+    registerHolidays('USFed1971-2020', dateParse(
       c("1971/01/01", "1971/01/18", "1971/02/15", "1971/05/31",
         "1971/07/05", "1971/09/06", "1971/10/11", "1971/11/11", "1971/11/25", "1971/12/24",
         "1971/12/31", "1972/01/17", "1972/02/21", "1972/05/29", "1972/07/04", "1972/09/04",
@@ -945,4 +959,10 @@
         "2019/07/04", "2019/09/02", "2019/10/14", "2019/11/11", "2019/11/28", "2019/12/25",
         "2020/01/01", "2020/01/20", "2020/02/17", "2020/05/25", "2020/07/03", "2020/09/07",
         "2020/10/12", "2020/11/11", "2020/11/26", "2020/12/25")))
+
+    ## Formula works well for 2000+
+    registerHolidays('USFed', c(holidays(1971:2020, 'USFed1971-2020'),
+                                holiday.US_FED(2000:2050)))
+
+
 }
