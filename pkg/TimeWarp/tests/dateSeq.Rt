@@ -174,7 +174,7 @@ Warning in dateSeq.default("2008/1/2", "2008/1/1") :
 > class(structure(numeric(0), class='Date'))
 [1] "Date"
 > str(structure(numeric(0), class='Date'))
-Class 'Date'  num(0) 
+'Date'  num(0) 
 > class(dateSeq('2011-12-18','2011-12-18', by='bizdays'))
 [1] "character"
 > class(dateSeq(as.Date('2011-12-18'),'2011-12-18', by='bizdays'))

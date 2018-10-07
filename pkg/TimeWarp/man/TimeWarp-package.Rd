@@ -35,21 +35,23 @@ Maintainer: Tony Plate \email{tplate@acm.org}
 \keyword{ package }
 \seealso{
 \code{\link{dateWarp}}, \code{\link{dateAlign}}, \code{\link{dateSeq}},
-\code{\link{dateMatch}}, and \code{\link{holidays}}.
+\code{\link{dateMatch}}, \code{\link{holidays}},
+\code{\link{isWeekday}}, \code{\link{nearestWeekday}}, \code{\link{filterWeekdays}}.
 
 The \code{\link[Holidays]{Holidays}} package loads a database of holidays into the
 \code{TimeWarp} package.
 
-\code{\link{pitfalls}} describes some pitfalls with date class conversions.
+\code{\link{pitfalls}} describes some pitfalls to watch out for with date class
+conversions in R.
 
 On the use of \code{Date}, \code{chron} and \code{POSIXt} classes: Gabor Grothendieck
 and Thomas Petzoldt. R help desk: Date and time classes in
-R. \url{http://cran.r-project.org/doc/Rnews/Rnews_2004-1.pdf} (Has a
+R. \url{https://cran.r-project.org/doc/Rnews/Rnews_2004-1.pdf} (Has a
 helpful table of how to accomplish various tasks with the different
 classes.)
 
 On the creation and use of the \code{POSIXt} classes (\code{POSIXct} and \code{POSIXlt}):
-Brian D. Ripley and Kurt Hornik. Date-time classes. \url{http://cran.r-project.org/doc/Rnews/Rnews_2001-2.pdf}
+Brian D. Ripley and Kurt Hornik. Date-time classes. \url{https://cran.r-project.org/doc/Rnews/Rnews_2001-2.pdf}
 
 }
 

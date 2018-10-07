@@ -46,6 +46,7 @@ isHoliday(dates, type)
 	\code{isHoliday} returns a logical vector with TRUE of all
 	holidays in input.
 }
+\seealso{\code{\link{isWeekday}}, \code{\link{nearestWeekday}}, \code{\link{filterWeekdays}}}
 \examples{
 # Create a holiday type of New Year days for the 20th century.
 registerHolidays('NEWYEAR', as.Date(ISOdate(1900:2000,1,1)))
